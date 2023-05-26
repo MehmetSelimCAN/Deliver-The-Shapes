@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class Node : MonoBehaviour {
 
-    private bool isLocked;
+    [SerializeField] private bool isLocked;
+    public bool IsLocked { get { return isLocked; } }
+
+    [SerializeField] private bool isConnected;
+    public bool IsConnected { get { return isConnected; } }
+
+    [SerializeField] public List<Node> connectedNodes;
+
+    public void ConnectNode(Node nodeToConnect) {
+        isConnected = true;
+        connectedNodes.Add(nodeToConnect);
+    }
 
     private void OnMouseDown() {
         if (!isLocked) {
