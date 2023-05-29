@@ -17,16 +17,18 @@ public class ResourceGenerator : MonoBehaviour {
         if (!node.IsLocked && node.IsConnected) {
             resourceGenerationTimer -= Time.deltaTime;
             if (resourceGenerationTimer < 0) {
-                for (int i = 0; i < node.connectedNodes.Count; i++) {
-                    SpawnResource(node.connectedNodes[i]);
+                foreach (Node transferTo in node.connectedNodesLinks.Keys) {
+                    for (int i = 0; i < node.connectedNodesLinks[transferTo]; i++) {
+                        SpawnResource(transferTo);
+                    }
                 }
             }
         }
     }
 
-    private void SpawnResource(Node moveToNode) {
+    private void SpawnResource(Node transferTo) {
         Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
-        resource.MoveTo(moveToNode);
+        resource.MoveTo(transferTo);
         resourceGenerationTimer = resourceGenerationTimerMax;
     }
 }

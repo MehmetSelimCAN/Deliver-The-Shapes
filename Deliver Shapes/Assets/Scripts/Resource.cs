@@ -6,7 +6,7 @@ public class Resource : MonoBehaviour {
 
     [SerializeField] private ResourceType resourceType;
     public ResourceType ResourceType { get { return resourceType; } }
-    public float movementSpeed = 10f;
+    public float movementSpeed = 20f;
 
     public void MoveTo(Node node) {
         StartCoroutine(Moving(node));
