@@ -6,21 +6,34 @@ public class ResourceGenerator : MonoBehaviour {
 
     private Node node;
     [SerializeField] private Resource resourcePrefab;
-    private float resourceGenerationTimerMax = 1.0f;
-    private float resourceGenerationTimer = 0.5f;
+    private Dictionary<Node, float> nodeGenerationTimerMax = new Dictionary<Node, float>();
+    private Dictionary<Node, float> nodeGenerationTimer = new Dictionary<Node, float>();
+    private float defaultGenerationTimerMax = 2.0f;
 
     private void Awake() {
         node = GetComponent<Node>();
     }
 
+    public void UpdateResourceGenerationTimer() {
+        nodeGenerationTimerMax.Clear();
+        nodeGenerationTimer.Clear();
+
+        foreach (Node connectedNode in node.connectedNodesLinks.Keys) {
+            float newGenerationTimer = defaultGenerationTimerMax / node.connectedNodesLinks[connectedNode];
+            nodeGenerationTimerMax.Add(connectedNode, newGenerationTimer);
+            nodeGenerationTimer.Add(connectedNode, newGenerationTimer);
+        }
+    }
+
     private void Update() {
+        foreach (Node connectedNode in nodeGenerationTimerMax.Keys) {
+            nodeGenerationTimer[connectedNode] -= Time.deltaTime;
+        }
+
         if (!node.IsLocked && node.IsConnected) {
-            resourceGenerationTimer -= Time.deltaTime;
-            if (resourceGenerationTimer < 0) {
-                foreach (Node transferTo in node.connectedNodesLinks.Keys) {
-                    for (int i = 0; i < node.connectedNodesLinks[transferTo]; i++) {
-                        SpawnResource(transferTo);
-                    }
+            foreach (Node transferTo in node.connectedNodesLinks.Keys) {
+                if (nodeGenerationTimer[transferTo] < 0) {
+                    SpawnResource(transferTo);
                 }
             }
         }
@@ -29,6 +42,6 @@ public class ResourceGenerator : MonoBehaviour {
     private void SpawnResource(Node transferTo) {
         Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
         resource.MoveTo(transferTo);
-        resourceGenerationTimer = resourceGenerationTimerMax;
+        nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
     }
 }

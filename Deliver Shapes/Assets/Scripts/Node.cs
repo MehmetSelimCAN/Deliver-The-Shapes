@@ -13,6 +13,12 @@ public class Node : MonoBehaviour {
 
     [SerializeField] public Dictionary<Node, int> connectedNodesLinks = new Dictionary<Node, int>();
 
+    private ResourceGenerator resourceGenerator;
+
+    private void Awake() {
+        resourceGenerator = GetComponent<ResourceGenerator>();
+    }
+
     public void ConnectNode(Node nodeToConnect) {
         if (!connectedNodesLinks.ContainsKey(nodeToConnect)) {
             connectedNodesLinks.Add(nodeToConnect, 0);
@@ -21,6 +27,8 @@ public class Node : MonoBehaviour {
         }
 
         connectedNodesLinks[nodeToConnect]++;
+
+        resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
     private void OnMouseDown() {
