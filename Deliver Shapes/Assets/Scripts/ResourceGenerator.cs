@@ -22,6 +22,7 @@ public class ResourceGenerator : MonoBehaviour {
             float newGenerationTimer = defaultGenerationTimerMax / node.connectedNodesLinks[connectedNode];
             nodeGenerationTimerMax.Add(connectedNode, newGenerationTimer);
             nodeGenerationTimer.Add(connectedNode, newGenerationTimer);
+            Debug.Log(newGenerationTimer);
         }
     }
 

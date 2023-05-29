@@ -22,13 +22,19 @@ public class Node : MonoBehaviour {
     public void ConnectNode(Node nodeToConnect) {
         if (!connectedNodesLinks.ContainsKey(nodeToConnect)) {
             connectedNodesLinks.Add(nodeToConnect, 0);
-            nodeToConnect.ConnectNode(this);
-            isConnected = true;
+        }
+        if (!nodeToConnect.connectedNodesLinks.ContainsKey(this)) {
+            nodeToConnect.connectedNodesLinks.Add(this, 0);
         }
 
+        isConnected = true;
+        nodeToConnect.isConnected = true;
+
         connectedNodesLinks[nodeToConnect]++;
+        nodeToConnect.connectedNodesLinks[this]++;
 
         resourceGenerator?.UpdateResourceGenerationTimer();
+        nodeToConnect.resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
     private void OnMouseDown() {
