@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NodeUnlockedData : MonoBehaviour {
+public class NodeUnlockedComponents : MonoBehaviour {
 
     private NodeData nodeData;
 
@@ -15,6 +15,8 @@ public class NodeUnlockedData : MonoBehaviour {
     [SerializeField] private Transform currentIngredientsParent;
     [SerializeField] private Transform currentIngredientTemplate;
     private List<IngredientVisual> currentIngredientVisuals = new List<IngredientVisual>();
+    private Dictionary<ResourceType, int> currentIngredients = new Dictionary<ResourceType, int>();
+    public Dictionary<ResourceType, int> CurrentIngredients { get { return currentIngredients; } }
 
     private void Awake() {
         nodeData = GetComponentInParent<NodeData>();
@@ -27,8 +29,8 @@ public class NodeUnlockedData : MonoBehaviour {
         for (int i = 0; i < nodeData.InputIngredients.Count; i++) {
             var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(nodeData.InputIngredients[i].resourceType);
-            inputIngredient.UpdateSprite(resourceSprite);
+            inputIngredient.ResourceType = nodeData.InputIngredients[i].resourceType;
+            inputIngredient.UpdateSprite();
             inputIngredient.UpdateCount(nodeData.InputIngredients[i].count);
 
             inputIngredient.gameObject.SetActive(true);
@@ -46,10 +48,12 @@ public class NodeUnlockedData : MonoBehaviour {
         for (int i = 0; i < nodeData.InputIngredients.Count; i++) {
             var inputIngredient = Instantiate(currentIngredientTemplate, currentIngredientsParent).GetComponent<IngredientVisual>();
 
-            Sprite inputResourceSprite = SpriteProvider.Instance.GetResourceSprite(nodeData.InputIngredients[i].resourceType);
-            inputIngredient.UpdateSprite(inputResourceSprite);
+
+            inputIngredient.ResourceType = nodeData.InputIngredients[i].resourceType;
+            inputIngredient.UpdateSprite();
             inputIngredient.UpdateCount(0);
             currentIngredientVisuals.Add(inputIngredient);
+            currentIngredients.Add(inputIngredient.ResourceType, 0);
             inputIngredient.gameObject.SetActive(true);
         }
     }
@@ -57,10 +61,17 @@ public class NodeUnlockedData : MonoBehaviour {
     private void CreateCurrentOutputIngredientsVisual() {
         var outputIngredient = Instantiate(currentIngredientTemplate, currentIngredientsParent).GetComponent<IngredientVisual>();
 
-        Sprite outputResourceSprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
-        outputIngredient.UpdateSprite(outputResourceSprite);
+        outputIngredient.ResourceType = nodeData.OutputResourceType;
+        outputIngredient.UpdateSprite();
         outputIngredient.UpdateCount(0);
         currentIngredientVisuals.Add(outputIngredient);
+        currentIngredients.Add(outputIngredient.ResourceType, 0);
         outputIngredient.gameObject.SetActive(true);
+    }
+
+    public void UpdateCurrentIngredientsVisual() {
+        foreach (var ingredientVisual in currentIngredientVisuals) {
+            ingredientVisual.UpdateCount(currentIngredients[ingredientVisual.ResourceType]);
+        }
     }
 }

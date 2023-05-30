@@ -1753,6 +1753,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   isConnected: 0
+  nodeUnlockedComponents: {fileID: 0}
+  nodeLockedComponents: {fileID: 0}
 --- !u!58 &243229816
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3086,6 +3088,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   isConnected: 0
+  nodeUnlockedComponents: {fileID: 0}
+  nodeLockedComponents: {fileID: 0}
 --- !u!58 &666894368
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3148,6 +3152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 1
   isConnected: 0
+  nodeUnlockedComponents: {fileID: 1780073083}
+  nodeLockedComponents: {fileID: 932463064}
 --- !u!58 &699703705
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3194,17 +3200,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredIngredientsToUnlock:
-  - count: 3
+  - count: 5
     resourceType: 0
   - count: 3
     resourceType: 2
-  earnedLineCount: 2
+  earnedLinkCount: 0
   inputIngredients:
   - count: 2
     resourceType: 0
   - count: 2
     resourceType: 2
   outputResourceType: 1
+  maximumResourceCapacity: 10
 --- !u!1 &705397664
 GameObject:
   m_ObjectHideFlags: 0
@@ -4841,10 +4848,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6a7c20ab6a7cd43ac43483982d99d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unlockedData: {fileID: 1780073083}
+  nodeUnlockedComponents: {fileID: 1780073083}
   requiredIngredientsParent: {fileID: 1661633060}
   requiredIngredientTemplate: {fileID: 1121868556}
-  earnedLineCountText: {fileID: 848579602}
+  earnedLinkCountText: {fileID: 848579602}
   inputIngredientsParent: {fileID: 1238404767}
   inputIngredientTemplate: {fileID: 2045225459}
   outputIngredientImage: {fileID: 1041748437}

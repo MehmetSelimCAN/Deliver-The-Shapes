@@ -11,12 +11,14 @@ public class Node : MonoBehaviour {
     [SerializeField] private bool isConnected;
     public bool IsConnected { get { return isConnected; } }
 
-    [SerializeField] public Dictionary<Node, int> connectedNodesLinks = new Dictionary<Node, int>();
+    private Dictionary<Node, int> connectedNodesLinks = new Dictionary<Node, int>();
+    public Dictionary<Node, int> ConnectedNodesLinks { get { return connectedNodesLinks; } }
 
     private ResourceGenerator resourceGenerator;
 
     private NodeData nodeData;
-    private NodeLockedData lockedData;
+    [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
+    [SerializeField] private NodeLockedComponents nodeLockedComponents;
 
     private float nodeRadius;
     public float NodeRadius { get { return nodeRadius; } }
@@ -24,7 +26,6 @@ public class Node : MonoBehaviour {
     private void Awake() {
         resourceGenerator = GetComponent<ResourceGenerator>();
         nodeData = GetComponent<NodeData>();
-        lockedData = GetComponentInChildren<NodeLockedData>();
 
         nodeRadius = GetComponent<CircleCollider2D>().radius;
     }
@@ -54,9 +55,21 @@ public class Node : MonoBehaviour {
                     requiredIngredient.count--;
                 }
             }
+            nodeLockedComponents.UpdateRequiredIngredients();
         }
 
-        lockedData.UpdateRequiredIngredients();
+        else {
+            if (nodeUnlockedComponents.CurrentIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                nodeUnlockedComponents.CurrentIngredients[resource.ResourceType]++;
+                nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+            }
+        }
+
+        Destroy(resource.gameObject);
+    }
+
+    public void Unlock() {
+        isLocked = false;
     }
 
     private void OnMouseDown() {
