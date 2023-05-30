@@ -2010,7 +2010,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &246962797
 Transform:
   m_ObjectHideFlags: 0
@@ -3319,7 +3319,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: +1
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3346,7 +3346,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.3
+  m_fontSize: 1
   m_fontSizeBase: 1
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3790,6 +3790,7 @@ GameObject:
   - component: {fileID: 699703706}
   - component: {fileID: 699703705}
   - component: {fileID: 699703704}
+  - component: {fileID: 699703707}
   m_Layer: 0
   m_Name: Node_1
   m_TagString: Untagged
@@ -3844,6 +3845,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &699703707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699703703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cbcbe4339fb64646a1668d56039a299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  requiredIngredientsToUnlock:
+  - count: 3
+    resourceType: 0
+  earnedLineCount: 2
+  inputIngredients:
+  - count: 2
+    resourceType: 0
+  outputResourceType: 1
 --- !u!1 &705397664
 GameObject:
   m_ObjectHideFlags: 0
@@ -4658,13 +4679,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 853649569}
+  - component: {fileID: 853649570}
   m_Layer: 0
   m_Name: InputTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &853649569
 Transform:
   m_ObjectHideFlags: 0
@@ -4681,6 +4703,20 @@ Transform:
   m_Father: {fileID: 1020612030}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &853649570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 853649568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bb4ad0adfe9624da2a1ce1432223ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientSpriteRenderer: {fileID: 1726578368}
+  countText: {fileID: 980846986}
 --- !u!1 &889868054
 GameObject:
   m_ObjectHideFlags: 0
@@ -5067,24 +5103,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab6a7c20ab6a7cd43ac43483982d99d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredIngredientsToUnlock:
-  - count: 2
-    resourceType: 0
-  - count: 4
-    resourceType: 2
+  unlockedData: {fileID: 1780073083}
   requiredIngredientsParent: {fileID: 1712230227}
   requiredIngredientTemplate: {fileID: 2119110462}
-  earnedLineCount: 1
   earnedLineCountText: {fileID: 614619891}
-  inputIngredients:
-  - count: 5
-    resourceType: 0
-  - count: 2
-    resourceType: 1
   inputIngredientsParent: {fileID: 34924241}
   inputIngredientTemplate: {fileID: 555685286}
   outputIngredientSpriteRenderer: {fileID: 1838390022}
-  outputResourceType: 0
 --- !u!1 &947402147
 GameObject:
   m_ObjectHideFlags: 0
@@ -6224,13 +6249,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1203636882}
+  - component: {fileID: 1203636883}
   m_Layer: 0
   m_Name: IngredientTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1203636882
 Transform:
   m_ObjectHideFlags: 0
@@ -6247,6 +6273,20 @@ Transform:
   m_Father: {fileID: 246962797}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1203636883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1203636881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27bb4ad0adfe9624da2a1ce1432223ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ingredientSpriteRenderer: {fileID: 1387363298}
+  countText: {fileID: 1379106719}
 --- !u!1 &1228247437
 GameObject:
   m_ObjectHideFlags: 0
@@ -6993,7 +7033,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
   m_Color: {r: 0.06666667, g: 0.6784314, b: 0.7568628, a: 1}
   m_FlipX: 0
@@ -7914,7 +7954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1590956540
 Transform:
   m_ObjectHideFlags: 0
@@ -8052,7 +8092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1623048832
 Transform:
   m_ObjectHideFlags: 0
@@ -8713,7 +8753,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.97647065, g: 0.57254905, b: 0.32156864, a: 1}
   m_FlipX: 0
@@ -8818,6 +8858,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1780073082}
+  - component: {fileID: 1780073083}
   m_Layer: 0
   m_Name: Unlocked
   m_TagString: Untagged
@@ -8844,6 +8885,23 @@ Transform:
   m_Father: {fileID: 699703706}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1780073083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780073081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdaade5e56efbb7418c0377733f0ad5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputIngredientsParent: {fileID: 1020612030}
+  inputIngredientTemplate: {fileID: 853649569}
+  outputIngredientSpriteRenderer: {fileID: 1770611252}
+  currentIngredientsParent: {fileID: 246962797}
+  currentIngredientTemplate: {fileID: 1203636882}
 --- !u!1 &1838390020
 GameObject:
   m_ObjectHideFlags: 0
@@ -8917,7 +8975,7 @@ SpriteRenderer:
   m_SortingLayerID: -1319503335
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.97647065, g: 0.57254905, b: 0.32156864, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8925,7 +8983,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1864415733

@@ -19,7 +19,6 @@ public class Resource : MonoBehaviour {
             yield return null;
         }
 
-        Debug.Log("get resource");
         node.GetResource(this);
     }
 }

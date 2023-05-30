@@ -15,6 +15,7 @@ public class Node : MonoBehaviour {
 
     private ResourceGenerator resourceGenerator;
 
+    private NodeData nodeData;
     private NodeLockedData lockedData;
 
     private float nodeRadius;
@@ -22,6 +23,7 @@ public class Node : MonoBehaviour {
 
     private void Awake() {
         resourceGenerator = GetComponent<ResourceGenerator>();
+        nodeData = GetComponent<NodeData>();
         lockedData = GetComponentInChildren<NodeLockedData>();
 
         nodeRadius = GetComponent<CircleCollider2D>().radius;
@@ -47,7 +49,7 @@ public class Node : MonoBehaviour {
 
     public void GetResource(Resource resource) {
         if (isLocked) {
-            foreach (var requiredIngredient in lockedData.RequiredIngredientsToUnlock) {
+            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
                 if (resource.ResourceType == requiredIngredient.resourceType) {
                     requiredIngredient.count--;
                 }

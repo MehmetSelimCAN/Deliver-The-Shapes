@@ -6,82 +6,76 @@ using UnityEngine;
 
 public class NodeLockedData : MonoBehaviour {
 
-    [System.Serializable]
-    public class RequiredIngredient {
-        public int count;
-        public ResourceType resourceType;
-    }
+    private NodeData nodeData;
+    [SerializeField] private NodeUnlockedData unlockedData;
 
-    [SerializeField] private List<RequiredIngredient> requiredIngredientsToUnlock = new List<RequiredIngredient>();
-    public List<RequiredIngredient> RequiredIngredientsToUnlock { get { return requiredIngredientsToUnlock; } }
     [SerializeField] private Transform requiredIngredientsParent;
     [SerializeField] private Transform requiredIngredientTemplate;
-    private List<IngredientVisual> RequiredIngredientVisuals = new List<IngredientVisual>();
+    private List<IngredientVisual> requiredIngredientVisuals = new List<IngredientVisual>();
 
-    [SerializeField] private int earnedLineCount;
     [SerializeField] private TextMeshProUGUI earnedLineCountText;
 
-    [SerializeField] private List<RequiredIngredient> inputIngredients = new List<RequiredIngredient>();
     [SerializeField] private Transform inputIngredientsParent;
     [SerializeField] private Transform inputIngredientTemplate;
 
     [SerializeField] private SpriteRenderer outputIngredientSpriteRenderer;
-    [SerializeField] private ResourceType outputResourceType;
 
     private void Awake() {
+        nodeData = GetComponentInParent<NodeData>();
+
         CreateRequiredIngredientsVisual();
         UpdateEarnLineCount();
         CreateInputOutputIngredientsVisual();
     }
 
     private void CreateRequiredIngredientsVisual() {
-        for (int i = 0; i < requiredIngredientsToUnlock.Count; i++) {
+        for (int i = 0; i < nodeData.RequiredIngredientsToUnlock.Count; i++) {
             var requiredIngredientVisual = Instantiate(requiredIngredientTemplate, requiredIngredientsParent).GetComponent<IngredientVisual>();
 
-            Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(requiredIngredientsToUnlock[i].resourceType);
+            Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(nodeData.RequiredIngredientsToUnlock[i].resourceType);
             requiredIngredientVisual.UpdateSprite(resourceSprite);
-            requiredIngredientVisual.UpdateCount(requiredIngredientsToUnlock[i].count);
+            requiredIngredientVisual.UpdateCount(nodeData.RequiredIngredientsToUnlock[i].count);
 
             requiredIngredientVisual.gameObject.SetActive(true);
-            RequiredIngredientVisuals.Add(requiredIngredientVisual);
+            requiredIngredientVisuals.Add(requiredIngredientVisual);
         }
     }
 
     private void UpdateEarnLineCount() {
-        earnedLineCountText.SetText(earnedLineCount.ToString());
+        earnedLineCountText.SetText("+" + nodeData.EarnedLineCount);
     }
 
     private void CreateInputOutputIngredientsVisual() {
-        for (int i = 0; i < inputIngredients.Count; i++) {
+        for (int i = 0; i < nodeData.InputIngredients.Count; i++) {
             var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(inputIngredients[i].resourceType);
+            Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(nodeData.InputIngredients[i].resourceType);
             inputIngredient.UpdateSprite(resourceSprite);
-            inputIngredient.UpdateCount(inputIngredients[i].count);
+            inputIngredient.UpdateCount(nodeData.InputIngredients[i].count);
 
             inputIngredient.gameObject.SetActive(true);
         }
 
-        outputIngredientSpriteRenderer.sprite = SpriteProvider.Instance.GetResourceSprite(outputResourceType);
+        outputIngredientSpriteRenderer.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 
     public void UpdateRequiredIngredients() {
-        for (int i = 0; i < RequiredIngredientVisuals.Count; i++) {
-            int requiredIngredientCount = requiredIngredientsToUnlock[i].count;
-            RequiredIngredientVisuals[i].UpdateCount(requiredIngredientCount);
+        for (int i = 0; i < requiredIngredientVisuals.Count; i++) {
+            int requiredIngredientCount = nodeData.RequiredIngredientsToUnlock[i].count;
+            requiredIngredientVisuals[i].UpdateCount(requiredIngredientCount);
 
             if (requiredIngredientCount == 0) {
-                RequiredIngredientVisuals[i].gameObject.SetActive(false);
+                requiredIngredientVisuals[i].gameObject.SetActive(false);
             }
         }
 
-        for (int i = 0; i < RequiredIngredientVisuals.Count; i++) {
-            if (RequiredIngredientVisuals[i].gameObject.activeInHierarchy) {
+        for (int i = 0; i < requiredIngredientVisuals.Count; i++) {
+            if (requiredIngredientVisuals[i].gameObject.activeInHierarchy) {
                 return;
             }
         }
 
-        Debug.Log("Unlocked");
+        unlockedData.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }
 }
