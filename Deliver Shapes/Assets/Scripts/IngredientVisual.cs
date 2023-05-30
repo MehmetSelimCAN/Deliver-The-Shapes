@@ -18,7 +18,7 @@ public class IngredientVisual : MonoBehaviour {
         ingredientImage.sprite = resourceSprite;
     }
 
-    public void UpdateCount(int count) {
+    public void UpdateCount(int count = 0) {
         countText.SetText(count.ToString());
     }
 }

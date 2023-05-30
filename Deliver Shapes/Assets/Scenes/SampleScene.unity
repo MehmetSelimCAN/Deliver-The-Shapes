@@ -4450,7 +4450,7 @@ GameObject:
   - component: {fileID: 897657697}
   - component: {fileID: 897657698}
   m_Layer: 5
-  m_Name: IngredientTemplate
+  m_Name: CollectableIngredientTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8105,8 +8105,8 @@ MonoBehaviour:
   inputIngredientsParent: {fileID: 624628404}
   inputIngredientTemplate: {fileID: 1450029584}
   outputIngredientImage: {fileID: 1181313604}
-  currentIngredientsParent: {fileID: 1810608680}
-  currentIngredientTemplate: {fileID: 897657697}
+  collectableIngredientsParent: {fileID: 1810608680}
+  collectableIngredientTemplate: {fileID: 897657697}
 --- !u!1 &1790953432
 GameObject:
   m_ObjectHideFlags: 0
@@ -8194,7 +8194,7 @@ GameObject:
   - component: {fileID: 1810608680}
   - component: {fileID: 1810608681}
   m_Layer: 5
-  m_Name: CurrentIngredients
+  m_Name: CollectableIngredients
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

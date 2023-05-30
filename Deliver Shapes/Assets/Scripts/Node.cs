@@ -59,8 +59,8 @@ public class Node : MonoBehaviour {
         }
 
         else {
-            if (nodeUnlockedComponents.CurrentIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
-                nodeUnlockedComponents.CurrentIngredients[resource.ResourceType]++;
+            if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                nodeUnlockedComponents.CollectableIngredients[resource.ResourceType]++;
                 nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
             }
         }
