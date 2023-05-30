@@ -15,8 +15,16 @@ public class Node : MonoBehaviour {
 
     private ResourceGenerator resourceGenerator;
 
+    private NodeLockedData lockedData;
+
+    private float nodeRadius;
+    public float NodeRadius { get { return nodeRadius; } }
+
     private void Awake() {
         resourceGenerator = GetComponent<ResourceGenerator>();
+        lockedData = GetComponentInChildren<NodeLockedData>();
+
+        nodeRadius = GetComponent<CircleCollider2D>().radius;
     }
 
     public void ConnectNode(Node nodeToConnect) {
@@ -37,9 +45,19 @@ public class Node : MonoBehaviour {
         nodeToConnect.resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
-    private void OnMouseDown() {
-        if (!isLocked) {
-            LinkManager.Instance.SelectNode(this);
+    public void GetResource(Resource resource) {
+        if (isLocked) {
+            foreach (var requiredIngredient in lockedData.RequiredIngredientsToUnlock) {
+                if (resource.ResourceType == requiredIngredient.resourceType) {
+                    requiredIngredient.count--;
+                }
+            }
         }
+
+        lockedData.UpdateRequiredIngredients();
+    }
+
+    private void OnMouseDown() {
+        LinkManager.Instance.SelectNode(this);
     }
 }

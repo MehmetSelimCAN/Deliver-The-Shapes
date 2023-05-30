@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class IngredientTemplate : MonoBehaviour {
+public class IngredientVisual : MonoBehaviour {
 
     [SerializeField] private SpriteRenderer ingredientSpriteRenderer;
     [SerializeField] private TextMeshProUGUI countText;

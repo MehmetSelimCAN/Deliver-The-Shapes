@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
-using static NodeLockedData;
 
 public class NodeLockedData : MonoBehaviour {
 
@@ -14,8 +13,10 @@ public class NodeLockedData : MonoBehaviour {
     }
 
     [SerializeField] private List<RequiredIngredient> requiredIngredientsToUnlock = new List<RequiredIngredient>();
+    public List<RequiredIngredient> RequiredIngredientsToUnlock { get { return requiredIngredientsToUnlock; } }
     [SerializeField] private Transform requiredIngredientsParent;
     [SerializeField] private Transform requiredIngredientTemplate;
+    private List<IngredientVisual> RequiredIngredientVisuals = new List<IngredientVisual>();
 
     [SerializeField] private int earnedLineCount;
     [SerializeField] private TextMeshProUGUI earnedLineCountText;
@@ -35,13 +36,14 @@ public class NodeLockedData : MonoBehaviour {
 
     private void CreateRequiredIngredientsVisual() {
         for (int i = 0; i < requiredIngredientsToUnlock.Count; i++) {
-            var requiredIngredient = Instantiate(requiredIngredientTemplate, requiredIngredientsParent).GetComponent<IngredientTemplate>();
+            var requiredIngredientVisual = Instantiate(requiredIngredientTemplate, requiredIngredientsParent).GetComponent<IngredientVisual>();
 
             Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(requiredIngredientsToUnlock[i].resourceType);
-            requiredIngredient.UpdateSprite(resourceSprite);
-            requiredIngredient.UpdateCount(requiredIngredientsToUnlock[i].count);
+            requiredIngredientVisual.UpdateSprite(resourceSprite);
+            requiredIngredientVisual.UpdateCount(requiredIngredientsToUnlock[i].count);
 
-            requiredIngredient.gameObject.SetActive(true);
+            requiredIngredientVisual.gameObject.SetActive(true);
+            RequiredIngredientVisuals.Add(requiredIngredientVisual);
         }
     }
 
@@ -51,7 +53,7 @@ public class NodeLockedData : MonoBehaviour {
 
     private void CreateInputOutputIngredientsVisual() {
         for (int i = 0; i < inputIngredients.Count; i++) {
-            var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientTemplate>();
+            var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
             Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(inputIngredients[i].resourceType);
             inputIngredient.UpdateSprite(resourceSprite);
@@ -61,5 +63,25 @@ public class NodeLockedData : MonoBehaviour {
         }
 
         outputIngredientSpriteRenderer.sprite = SpriteProvider.Instance.GetResourceSprite(outputResourceType);
+    }
+
+    public void UpdateRequiredIngredients() {
+        for (int i = 0; i < RequiredIngredientVisuals.Count; i++) {
+            int requiredIngredientCount = requiredIngredientsToUnlock[i].count;
+            RequiredIngredientVisuals[i].UpdateCount(requiredIngredientCount);
+
+            if (requiredIngredientCount == 0) {
+                RequiredIngredientVisuals[i].gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < RequiredIngredientVisuals.Count; i++) {
+            if (RequiredIngredientVisuals[i].gameObject.activeInHierarchy) {
+                return;
+            }
+        }
+
+        Debug.Log("Unlocked");
+        gameObject.SetActive(false);
     }
 }

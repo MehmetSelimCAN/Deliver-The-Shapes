@@ -13,9 +13,13 @@ public class Resource : MonoBehaviour {
     }
 
     private IEnumerator Moving(Node node) {
-        while (true) {
+        while (Vector2.Distance(transform.position, node.transform.position) > node.NodeRadius) {
             transform.position = Vector2.MoveTowards(transform.position, node.transform.position, movementSpeed * Time.deltaTime);
+
             yield return null;
         }
+
+        Debug.Log("get resource");
+        node.GetResource(this);
     }
 }
