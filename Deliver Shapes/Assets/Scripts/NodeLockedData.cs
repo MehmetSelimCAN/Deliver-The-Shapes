@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NodeLockedData : MonoBehaviour {
 
@@ -18,7 +19,7 @@ public class NodeLockedData : MonoBehaviour {
     [SerializeField] private Transform inputIngredientsParent;
     [SerializeField] private Transform inputIngredientTemplate;
 
-    [SerializeField] private SpriteRenderer outputIngredientSpriteRenderer;
+    [SerializeField] private Image outputIngredientImage;
 
     private void Awake() {
         nodeData = GetComponentInParent<NodeData>();
@@ -56,7 +57,7 @@ public class NodeLockedData : MonoBehaviour {
             inputIngredient.gameObject.SetActive(true);
         }
 
-        outputIngredientSpriteRenderer.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
+        outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 
     public void UpdateRequiredIngredients() {

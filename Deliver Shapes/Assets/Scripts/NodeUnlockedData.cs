@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NodeUnlockedData : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class NodeUnlockedData : MonoBehaviour {
     [SerializeField] private Transform inputIngredientsParent;
     [SerializeField] private Transform inputIngredientTemplate;
 
-    [SerializeField] private SpriteRenderer outputIngredientSpriteRenderer;
+    [SerializeField] private Image outputIngredientImage;
 
     [SerializeField] private Transform currentIngredientsParent;
     [SerializeField] private Transform currentIngredientTemplate;
@@ -33,7 +34,7 @@ public class NodeUnlockedData : MonoBehaviour {
             inputIngredient.gameObject.SetActive(true);
         }
 
-        outputIngredientSpriteRenderer.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
+        outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 
     private void CreateCurrentIngredientsVisual() {

@@ -3,7 +3,10 @@ guid: 78428006f98b8ab4caffaae4e841561e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - triangleSprite: {fileID: 21300000, guid: 9d473eb3d4df43147923e04aa9abca0d, type: 3}
+  - squareSprite: {instanceID: 0}
+  - circleSprite: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
