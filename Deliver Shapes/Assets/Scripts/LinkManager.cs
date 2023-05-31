@@ -53,6 +53,7 @@ public class LinkManager : MonoBehaviour {
         List<Vector2> points = new List<Vector2>{ pointA, pointB };
 
         availableLink.AdjustPoints(points);
+        availableLink.ConnectNodes(node1, node2);
 
         availableLink = FindAvailableLink();
     }

@@ -8,9 +8,6 @@ public class Node : MonoBehaviour {
     [SerializeField] private bool isLocked;
     public bool IsLocked { get { return isLocked; } }
 
-    [SerializeField] private bool isConnected;
-    public bool IsConnected { get { return isConnected; } }
-
     private Dictionary<Node, int> connectedNodesLinks = new Dictionary<Node, int>();
     public Dictionary<Node, int> ConnectedNodesLinks { get { return connectedNodesLinks; } }
 
@@ -71,9 +68,6 @@ public class Node : MonoBehaviour {
         if (!nodeToConnect.connectedNodesLinks.ContainsKey(this)) {
             nodeToConnect.connectedNodesLinks.Add(this, 0);
         }
-
-        isConnected = true;
-        nodeToConnect.isConnected = true;
 
         connectedNodesLinks[nodeToConnect]++;
         nodeToConnect.connectedNodesLinks[this]++;
