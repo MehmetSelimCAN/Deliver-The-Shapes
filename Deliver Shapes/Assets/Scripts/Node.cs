@@ -31,25 +31,32 @@ public class Node : MonoBehaviour {
 
     public bool TryToConnect(Node nodeToConnect) {
         if (isLocked) {
-            if (nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == nodeToConnect.nodeData.OutputResourceType) != null) {
-                ConnectNode(nodeToConnect);
-                return true;
+            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
+                if(requiredIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
+                    ConnectNode(nodeToConnect);
+                    return true;
+                }
             }
         }
         else if (!isLocked) {
-            if(nodeData.InputIngredients.Find(x => x.resourceType == nodeToConnect.nodeData.OutputResourceType) != null) {
-                ConnectNode(nodeToConnect);
-                return true;
-            }
-            else if (nodeToConnect.nodeData.InputIngredients.Find(x => x.resourceType == nodeData.OutputResourceType) != null) {
-                ConnectNode(nodeToConnect);
-                return true;
-            }
-
-            else if (nodeToConnect.IsLocked) {
-                if (nodeToConnect.nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == nodeData.OutputResourceType) != null) {
+            foreach (var inputIngredient in nodeData.InputIngredients) {
+                if (inputIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
                     ConnectNode(nodeToConnect);
                     return true;
+                }
+            }
+            foreach (var inputIngredient in nodeToConnect.nodeData.InputIngredients) {
+                if (inputIngredient.resourceType == nodeData.OutputResourceType) {
+                    ConnectNode(nodeToConnect);
+                    return true;
+                }
+            }
+            if (nodeToConnect.IsLocked) {
+                foreach (var requiredIngredient in nodeToConnect.nodeData.RequiredIngredientsToUnlock) {
+                    if (requiredIngredient.resourceType == nodeData.OutputResourceType) {
+                        ConnectNode(nodeToConnect);
+                        return true;
+                    }
                 }
             }
         }
