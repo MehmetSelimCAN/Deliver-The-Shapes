@@ -4314,6 +4314,8 @@ MonoBehaviour:
   requiredIngredientsToUnlock:
   - count: 5
     resourceType: 0
+  - count: 5
+    resourceType: 2
   earnedLinkCount: 0
   inputIngredients:
   - count: 2

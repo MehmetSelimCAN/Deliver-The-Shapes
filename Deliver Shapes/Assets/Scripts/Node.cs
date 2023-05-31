@@ -75,6 +75,23 @@ public class Node : MonoBehaviour {
         nodeToConnect.resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
+    public bool CanGetResource(Resource resource) {
+        if (isLocked) {
+            if (nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == resource.ResourceType && x.count > 0) != null) {
+                return true;
+            }
+        }
+        else {
+            if (nodeUnlockedComponents.CollectableIngredients.ContainsKey(resource.ResourceType)) {
+                if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public void GetResource(Resource resource) {
         if (isLocked) {
             foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
@@ -86,9 +103,11 @@ public class Node : MonoBehaviour {
         }
 
         else {
-            if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
-                nodeUnlockedComponents.CollectableIngredients[resource.ResourceType]++;
-                nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+            if (nodeUnlockedComponents.CollectableIngredients.ContainsKey(resource.ResourceType)) {
+                if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                    nodeUnlockedComponents.CollectableIngredients[resource.ResourceType]++;
+                    nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+                }
             }
         }
 

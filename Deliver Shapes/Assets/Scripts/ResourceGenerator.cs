@@ -32,7 +32,7 @@ public class ResourceGenerator : MonoBehaviour {
 
         if (!node.IsLocked && node.IsConnected) {
             foreach (Node transferTo in node.ConnectedNodesLinks.Keys) {
-                if (nodeGenerationTimer[transferTo] < 0) {
+                if (transferTo.CanGetResource(resourcePrefab) && nodeGenerationTimer[transferTo] < 0) {
                     SpawnResource(transferTo);
                 }
             }
