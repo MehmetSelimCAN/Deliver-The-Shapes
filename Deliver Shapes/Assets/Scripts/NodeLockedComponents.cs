@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class NodeLockedComponents : MonoBehaviour {
 
+    private Node node;
     private NodeData nodeData;
     [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
 
@@ -22,6 +23,7 @@ public class NodeLockedComponents : MonoBehaviour {
     [SerializeField] private Image outputIngredientImage;
 
     private void Awake() {
+        node = GetComponentInParent<Node>();
         nodeData = GetComponentInParent<NodeData>();
 
         CreateRequiredIngredientsVisual();
@@ -78,6 +80,6 @@ public class NodeLockedComponents : MonoBehaviour {
 
         nodeUnlockedComponents.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        GetComponentInParent<Node>().Unlock();
+        node.Unlock();
     }
 }

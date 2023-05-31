@@ -26,8 +26,35 @@ public class Node : MonoBehaviour {
     private void Awake() {
         resourceGenerator = GetComponent<ResourceGenerator>();
         nodeData = GetComponent<NodeData>();
-
         nodeRadius = GetComponent<CircleCollider2D>().radius;
+    }
+
+    public bool TryToConnect(Node nodeToConnect) {
+        if (isLocked) {
+            if (nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == nodeToConnect.nodeData.OutputResourceType) != null) {
+                ConnectNode(nodeToConnect);
+                return true;
+            }
+        }
+        else if (!isLocked) {
+            if(nodeData.InputIngredients.Find(x => x.resourceType == nodeToConnect.nodeData.OutputResourceType) != null) {
+                ConnectNode(nodeToConnect);
+                return true;
+            }
+            else if (nodeToConnect.nodeData.InputIngredients.Find(x => x.resourceType == nodeData.OutputResourceType) != null) {
+                ConnectNode(nodeToConnect);
+                return true;
+            }
+
+            else if (nodeToConnect.IsLocked) {
+                if (nodeToConnect.nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == nodeData.OutputResourceType) != null) {
+                    ConnectNode(nodeToConnect);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public void ConnectNode(Node nodeToConnect) {

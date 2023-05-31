@@ -23,6 +23,10 @@ public class NodeUnlockedComponents : MonoBehaviour {
     private void Awake() {
         nodeData = GetComponentInParent<NodeData>();
 
+        
+    }
+
+    private void Start() {
         CreateInputIngredientsVisual();
         CreateOutputIngredientVisual();
         CreateCurrentIngredientsVisual();

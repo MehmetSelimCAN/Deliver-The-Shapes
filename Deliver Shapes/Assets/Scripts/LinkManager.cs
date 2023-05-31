@@ -41,9 +41,10 @@ public class LinkManager : MonoBehaviour {
     }
 
     private void ConnectTwoNodes(Node node1, Node node2) {
-        node1.ConnectNode(node2);
-        CreateLink(node1, node2);
-        selectedNode = null;
+        if (node1.TryToConnect(node2)) {
+            CreateLink(node1, node2);
+            selectedNode = null;
+        }
     }
 
     private void CreateLink(Node node1, Node node2) {

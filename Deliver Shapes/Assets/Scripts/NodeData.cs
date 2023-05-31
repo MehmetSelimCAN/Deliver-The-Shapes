@@ -13,6 +13,8 @@ public class NodeData : MonoBehaviour {
     [SerializeField] private List<RequiredIngredient> requiredIngredientsToUnlock = new List<RequiredIngredient>();
     public List<RequiredIngredient> RequiredIngredientsToUnlock { get { return requiredIngredientsToUnlock; } }
 
+    private List<ResourceType> requiredIngredientTypesToUnlock = new List<ResourceType>();
+
     [SerializeField] private int earnedLinkCount;
     public int EarnedLinkCount { get { return earnedLinkCount; } }
 
