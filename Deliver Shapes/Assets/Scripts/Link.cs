@@ -42,15 +42,16 @@ public class Link : MonoBehaviour {
         Node node1 = connectedNodes[0];
         Node node2 = connectedNodes[1];
 
-        node1.ConnectedNodesLinks.Remove(node2);
-        node2.ConnectedNodesLinks.Remove(node1);
+        node1.BreakLink(node2);
+        node2.BreakLink(node1);
 
         connectedNodes.Clear();
 
-        lineRenderer.SetPosition(0, Vector3.zero);
-        lineRenderer.SetPosition(1, Vector3.zero);
+        AdjustLineRendererPoints(zeroPoints);
+        AdjustEdgeColliderPoints(zeroPoints);
 
-        edgeCollider.SetPoints(zeroPoints);
+        lineRenderer.startColor = Color.green;
+        lineRenderer.endColor = Color.green;
 
         gameObject.SetActive(false);
     }
@@ -58,6 +59,8 @@ public class Link : MonoBehaviour {
     private void OnMouseEnter() {
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
+
+        Debug.Log("link sayýsý " + connectedNodes[0].ConnectedNodesLinks[connectedNodes[1]]);
     }
 
     private void OnMouseExit() {

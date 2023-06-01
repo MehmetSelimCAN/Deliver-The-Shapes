@@ -12,6 +12,7 @@ public class Node : MonoBehaviour {
     public Dictionary<Node, int> ConnectedNodesLinks { get { return connectedNodesLinks; } }
 
     private ResourceGenerator resourceGenerator;
+    public ResourceGenerator ResourceGenerator { get { return resourceGenerator; } }
 
     private NodeData nodeData;
     [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
@@ -78,8 +79,10 @@ public class Node : MonoBehaviour {
 
     public bool CanGetResource(Resource resource) {
         if (isLocked) {
-            if (nodeData.RequiredIngredientsToUnlock.Find(x => x.resourceType == resource.ResourceType && x.count > 0) != null) {
-                return true;
+            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
+                if (requiredIngredient.resourceType == resource.ResourceType && requiredIngredient.count > 0) {
+                    return true;
+                }
             }
         }
         else {
@@ -113,6 +116,17 @@ public class Node : MonoBehaviour {
         }
 
         Destroy(resource.gameObject);
+    }
+
+    public void BreakLink(Node connectedNode) {
+        if (connectedNodesLinks[connectedNode] > 1) {
+            connectedNodesLinks[connectedNode]--;
+        }
+        else {
+            connectedNodesLinks.Remove(connectedNode);
+        }
+
+        resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
     public void Unlock() {
