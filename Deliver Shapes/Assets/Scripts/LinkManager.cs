@@ -11,6 +11,7 @@ public class LinkManager : MonoBehaviour {
     private Link availableLink;
 
     private Node selectedNode;
+    private bool isPreviewingLink;
 
     private void Awake() {
         Instance = this;
@@ -18,7 +19,7 @@ public class LinkManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (selectedNode != null) {
+        if (selectedNode != null && !isPreviewingLink) {
             availableLink.LineRenderer.SetPosition(1, GetMousePosition());
         }
     }
@@ -41,7 +42,8 @@ public class LinkManager : MonoBehaviour {
     }
 
     private void ConnectTwoNodes(Node node1, Node node2) {
-        if (node1.TryToConnect(node2)) {
+        if (node1.CanConnect(node2)) {
+            node1.ConnectNode(node2);
             CreateLink(node1, node2);
             selectedNode = null;
         }
@@ -67,6 +69,17 @@ public class LinkManager : MonoBehaviour {
         }
 
         return null;
+    }
+
+    public void PreviewLink(Node node) {
+        if (selectedNode != null && selectedNode.CanConnect(node)) {
+            availableLink.LineRenderer.SetPosition(1, node.transform.position);
+            isPreviewingLink = true;
+        }
+    }
+
+    public void UnpreviewLink() {
+        isPreviewingLink = false;
     }
 
     private Vector2 GetMousePosition() {

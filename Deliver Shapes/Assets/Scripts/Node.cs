@@ -27,32 +27,31 @@ public class Node : MonoBehaviour {
         nodeRadius = GetComponent<CircleCollider2D>().radius;
     }
 
-    public bool TryToConnect(Node nodeToConnect) {
+    public bool CanConnect(Node nodeToConnect) {
         if (isLocked) {
             foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
                 if(requiredIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
-                    ConnectNode(nodeToConnect);
                     return true;
                 }
             }
         }
         else if (!isLocked) {
-            foreach (var inputIngredient in nodeData.InputIngredients) {
-                if (inputIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
-                    ConnectNode(nodeToConnect);
-                    return true;
-                }
-            }
-            foreach (var inputIngredient in nodeToConnect.nodeData.InputIngredients) {
-                if (inputIngredient.resourceType == nodeData.OutputResourceType) {
-                    ConnectNode(nodeToConnect);
-                    return true;
-                }
-            }
             if (nodeToConnect.IsLocked) {
                 foreach (var requiredIngredient in nodeToConnect.nodeData.RequiredIngredientsToUnlock) {
                     if (requiredIngredient.resourceType == nodeData.OutputResourceType) {
-                        ConnectNode(nodeToConnect);
+                        return true;
+                    }
+                }
+            }
+            else {
+                foreach (var inputIngredient in nodeToConnect.nodeData.InputIngredients) {
+                    if (inputIngredient.resourceType == nodeData.OutputResourceType) {
+                        return true;
+                    }
+                }
+
+                foreach (var inputIngredient in nodeData.InputIngredients) {
+                    if (inputIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
                         return true;
                     }
                 }
@@ -131,6 +130,14 @@ public class Node : MonoBehaviour {
 
     public void Unlock() {
         isLocked = false;
+    }
+
+    private void OnMouseEnter() {
+        LinkManager.Instance.PreviewLink(this);
+    }
+
+    private void OnMouseExit() {
+        LinkManager.Instance.UnpreviewLink();
     }
 
     private void OnMouseDown() {

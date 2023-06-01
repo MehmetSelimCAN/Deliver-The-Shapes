@@ -4311,12 +4311,12 @@ MonoBehaviour:
   requiredIngredientsToUnlock:
   - count: 5
     resourceType: 0
-  - count: 5
-    resourceType: 2
   earnedLinkCount: 0
   inputIngredients:
   - count: 2
     resourceType: 0
+  - count: 5
+    resourceType: 2
   outputResourceType: 1
   maximumResourceCapacity: 99999
 --- !u!1 &702206573
