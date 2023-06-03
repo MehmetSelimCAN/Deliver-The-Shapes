@@ -14,10 +14,10 @@ public class NodeDataEditor : Editor {
 
         EditorGUILayout.PropertyField(serializedObject.FindProperty("nodeType"));
 
-        switch (nodeData.nodeType) {
-            case NodeData.NodeType.MainNode:
+        switch (nodeData.NodeType) {
+            case NodeType.Main:
                 break;
-            case NodeData.NodeType.Other:
+            case NodeType.Other:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("requiredIngredientsToUnlock"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("inputIngredients"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("maximumResourceCapacity"));

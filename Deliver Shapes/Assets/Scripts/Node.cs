@@ -27,6 +27,17 @@ public class Node : MonoBehaviour {
         nodeRadius = GetComponent<CircleCollider2D>().radius;
     }
 
+    private void OnValidate() {
+        if (isLocked) {
+            nodeUnlockedComponents.gameObject.SetActive(false);
+            nodeLockedComponents.gameObject.SetActive(true);
+        }
+        else {
+            nodeLockedComponents.gameObject.SetActive(false);
+            nodeUnlockedComponents.gameObject.SetActive(true);
+        }
+    }
+
     public bool CanConnect(Node nodeToConnect) {
         if (isLocked) {
             if (nodeToConnect.isLocked) {

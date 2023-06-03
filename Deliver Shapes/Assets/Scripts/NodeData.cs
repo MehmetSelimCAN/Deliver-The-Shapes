@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class NodeData : MonoBehaviour {
 
-    public enum NodeType {
-        MainNode,
-        Other,
-    }
-
-    public NodeType nodeType;
+    [SerializeField] private NodeType nodeType;
+    public NodeType NodeType { get { return nodeType; } }
 
     [System.Serializable]
     public class RequiredIngredient {

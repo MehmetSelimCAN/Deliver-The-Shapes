@@ -47,11 +47,11 @@ public class ResourceGenerator : MonoBehaviour {
     }
 
     private void SpawnResource(Node transferTo) {
-        switch (nodeData.nodeType) {
-            case NodeData.NodeType.MainNode:
+        switch (nodeData.NodeType) {
+            case NodeType.Main:
                 SpawnResourceGameObject(transferTo);
                 break;
-            case NodeData.NodeType.Other:
+            case NodeType.Other:
                 if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
                     SpawnResourceGameObject(transferTo);
                     nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;

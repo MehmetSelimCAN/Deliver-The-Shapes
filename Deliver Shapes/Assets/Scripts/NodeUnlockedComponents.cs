@@ -10,6 +10,7 @@ public class NodeUnlockedComponents : MonoBehaviour {
     [SerializeField] private Transform inputIngredientsParent;
     [SerializeField] private Transform inputIngredientTemplate;
 
+    [SerializeField] private Image arrowImage;
     [SerializeField] private Image outputIngredientImage;
 
     [SerializeField] private Transform currentIngredientsParent;
@@ -21,9 +22,13 @@ public class NodeUnlockedComponents : MonoBehaviour {
     }
 
     private void Start() {
-        CreateInputIngredientsVisual();
+        if (nodeData.NodeType == NodeType.Other) {
+            CreateInputIngredientsVisual();
+            CreateCurrentIngredientsVisual();
+
+        }
+
         CreateOutputIngredientVisual();
-        CreateCurrentIngredientsVisual();
     }
 
     private void CreateInputIngredientsVisual() {
@@ -39,6 +44,10 @@ public class NodeUnlockedComponents : MonoBehaviour {
 
     private void CreateOutputIngredientVisual() {
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
+        if (nodeData.NodeType == NodeType.Main) {
+            outputIngredientImage.gameObject.transform.position = transform.position;
+            arrowImage.gameObject.SetActive(false);
+        }
     }
 
     private void CreateCurrentIngredientsVisual() {

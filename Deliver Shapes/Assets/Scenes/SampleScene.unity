@@ -916,7 +916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &120928781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1188,7 +1188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &188342355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1203,6 +1203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputIngredientsParent: {fileID: 1958716967}
   inputIngredientTemplate: {fileID: 1835684793}
+  arrowImage: {fileID: 738880994}
   outputIngredientImage: {fileID: 433961519}
   currentIngredientsParent: {fileID: 1504189592}
   currentIngredientTemplate: {fileID: 187436036}
@@ -1446,6 +1447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputIngredientsParent: {fileID: 1518671096}
   inputIngredientTemplate: {fileID: 490046106}
+  arrowImage: {fileID: 1154089646}
   outputIngredientImage: {fileID: 1138413579}
   currentIngredientsParent: {fileID: 1927721515}
   currentIngredientTemplate: {fileID: 470967286}
@@ -4064,7 +4066,7 @@ MonoBehaviour:
   inputIngredients:
   - count: 2
     resourceType: 0
-  outputResourceType: 1
+  outputResourceType: 2
   maximumResourceCapacity: 10
 --- !u!114 &699703708
 MonoBehaviour:
@@ -5353,19 +5355,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nodeType: 0
-  requiredIngredientsToUnlock:
-  - count: 5
-    resourceType: 0
-  - count: 5
-    resourceType: 2
+  requiredIngredientsToUnlock: []
   earnedLinkCount: 0
-  inputIngredients:
-  - count: 2
-    resourceType: 2
-  - count: 2
-    resourceType: 0
+  inputIngredients: []
   outputResourceType: 1
-  maximumResourceCapacity: 10
+  maximumResourceCapacity: 0
 --- !u!114 &801617041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5378,7 +5372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 030c4e114c1a18f478e9b23ef37c457d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLocked: 1
+  isLocked: 0
   nodeUnlockedComponents: {fileID: 188342355}
   nodeLockedComponents: {fileID: 120928781}
 --- !u!58 &801617042
@@ -7847,7 +7841,7 @@ MonoBehaviour:
   requiredIngredientsToUnlock: []
   earnedLinkCount: 0
   inputIngredients: []
-  outputResourceType: 2
+  outputResourceType: 0
   maximumResourceCapacity: 0
 --- !u!114 &1193881660
 MonoBehaviour:
@@ -9528,6 +9522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputIngredientsParent: {fileID: 625965953}
   inputIngredientTemplate: {fileID: 208311570}
+  arrowImage: {fileID: 748113808}
   outputIngredientImage: {fileID: 569096188}
   currentIngredientsParent: {fileID: 299305840}
   currentIngredientTemplate: {fileID: 32735773}
@@ -9909,6 +9904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputIngredientsParent: {fileID: 624628404}
   inputIngredientTemplate: {fileID: 1450029584}
+  arrowImage: {fileID: 112942094}
   outputIngredientImage: {fileID: 1181313604}
   currentIngredientsParent: {fileID: 1810608680}
   currentIngredientTemplate: {fileID: 897657697}
