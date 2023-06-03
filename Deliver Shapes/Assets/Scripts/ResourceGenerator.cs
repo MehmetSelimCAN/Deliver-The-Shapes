@@ -12,8 +12,6 @@ public class ResourceGenerator : MonoBehaviour {
     private Dictionary<Node, float> nodeGenerationTimer = new Dictionary<Node, float>();
     private float defaultGenerationTimerMax = 0.5f;
 
-    public bool isMainGenerator;
-
     private void Awake() {
         node = GetComponent<Node>();
     }
@@ -49,19 +47,23 @@ public class ResourceGenerator : MonoBehaviour {
     }
 
     private void SpawnResource(Node transferTo) {
-        if (isMainGenerator) {
-            Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
-            resource.MoveTo(transferTo);
-            nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
+        switch (nodeData.nodeType) {
+            case NodeData.NodeType.MainNode:
+                SpawnResourceGameObject(transferTo);
+                break;
+            case NodeData.NodeType.Other:
+                if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
+                    SpawnResourceGameObject(transferTo);
+                    nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;
+                    nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+                }
+                break;
         }
-        else {
-            if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
-                Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
-                resource.MoveTo(transferTo);
-                nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
-                nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;
-                nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
-            }
-        }
+    }
+
+    private void SpawnResourceGameObject(Node transferTo) {
+        Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
+        resource.MoveTo(transferTo);
+        nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
     }
 }

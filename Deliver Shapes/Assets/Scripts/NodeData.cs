@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class NodeData : MonoBehaviour {
 
+    public enum NodeType {
+        MainNode,
+        Other,
+    }
+
+    public NodeType nodeType;
+
     [System.Serializable]
     public class RequiredIngredient {
         public int count;
