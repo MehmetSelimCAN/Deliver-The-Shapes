@@ -1603,6 +1603,7 @@ GameObject:
   - component: {fileID: 279574475}
   - component: {fileID: 279574474}
   - component: {fileID: 279574473}
+  - component: {fileID: 279574478}
   m_Layer: 0
   m_Name: Node_3
   m_TagString: Untagged
@@ -1622,8 +1623,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8454885d77f82b04ca626e53dd8d978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeData: {fileID: 279574474}
-  nodeUnlockedComponents: {fileID: 240674681}
   resourcePrefab: {fileID: 4688393800459536844, guid: 441731e07b5f2504da19dd62c5e9c407, type: 3}
 --- !u!114 &279574474
 MonoBehaviour:
@@ -1656,8 +1655,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
-  nodeUnlockedComponents: {fileID: 240674681}
-  nodeLockedComponents: {fileID: 1911376313}
 --- !u!58 &279574476
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1691,6 +1688,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &279574478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279574472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6861e63ee273ee34b805a7b1274d7381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeLockedComponents: {fileID: 1911376313}
+  nodeUnlockedComponents: {fileID: 240674681}
 --- !u!1 &296403523
 GameObject:
   m_ObjectHideFlags: 0
@@ -3991,6 +4002,7 @@ GameObject:
   - component: {fileID: 699703704}
   - component: {fileID: 699703707}
   - component: {fileID: 699703708}
+  - component: {fileID: 699703709}
   m_Layer: 0
   m_Name: Node_1
   m_TagString: Untagged
@@ -4011,8 +4023,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 1
-  nodeUnlockedComponents: {fileID: 1780073083}
-  nodeLockedComponents: {fileID: 932463064}
 --- !u!58 &699703705
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4080,9 +4090,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8454885d77f82b04ca626e53dd8d978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeData: {fileID: 699703707}
-  nodeUnlockedComponents: {fileID: 1780073083}
   resourcePrefab: {fileID: 4688393800459536844, guid: 441731e07b5f2504da19dd62c5e9c407, type: 3}
+--- !u!114 &699703709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699703703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6861e63ee273ee34b805a7b1274d7381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeLockedComponents: {fileID: 932463064}
+  nodeUnlockedComponents: {fileID: 1780073083}
 --- !u!1 &702206573
 GameObject:
   m_ObjectHideFlags: 0
@@ -5320,6 +5342,7 @@ GameObject:
   - component: {fileID: 801617041}
   - component: {fileID: 801617040}
   - component: {fileID: 801617039}
+  - component: {fileID: 801617044}
   m_Layer: 0
   m_Name: Node_4
   m_TagString: Untagged
@@ -5339,8 +5362,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8454885d77f82b04ca626e53dd8d978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeData: {fileID: 801617040}
-  nodeUnlockedComponents: {fileID: 188342355}
   resourcePrefab: {fileID: 4688393800459536844, guid: 441731e07b5f2504da19dd62c5e9c407, type: 3}
 --- !u!114 &801617040
 MonoBehaviour:
@@ -5373,8 +5394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
-  nodeUnlockedComponents: {fileID: 188342355}
-  nodeLockedComponents: {fileID: 120928781}
 --- !u!58 &801617042
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5408,6 +5427,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &801617044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 801617038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6861e63ee273ee34b805a7b1274d7381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeLockedComponents: {fileID: 120928781}
+  nodeUnlockedComponents: {fileID: 188342355}
 --- !u!1 &809163876
 GameObject:
   m_ObjectHideFlags: 0
@@ -7818,6 +7851,7 @@ GameObject:
   - component: {fileID: 1193881660}
   - component: {fileID: 1193881659}
   - component: {fileID: 1193881663}
+  - component: {fileID: 1193881664}
   m_Layer: 0
   m_Name: Node_2
   m_TagString: Untagged
@@ -7856,8 +7890,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 0
-  nodeUnlockedComponents: {fileID: 1605790817}
-  nodeLockedComponents: {fileID: 827473239}
 --- !u!58 &1193881661
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7903,9 +7935,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8454885d77f82b04ca626e53dd8d978f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nodeData: {fileID: 1193881659}
-  nodeUnlockedComponents: {fileID: 1605790817}
   resourcePrefab: {fileID: 4688393800459536844, guid: 904c9506b607d3c45bb2acfabc0521a4, type: 3}
+--- !u!114 &1193881664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193881658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6861e63ee273ee34b805a7b1274d7381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nodeLockedComponents: {fileID: 827473239}
+  nodeUnlockedComponents: {fileID: 1605790817}
 --- !u!1 &1201354481
 GameObject:
   m_ObjectHideFlags: 0

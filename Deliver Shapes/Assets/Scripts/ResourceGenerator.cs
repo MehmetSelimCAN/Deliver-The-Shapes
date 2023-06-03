@@ -5,15 +5,19 @@ using UnityEngine;
 public class ResourceGenerator : MonoBehaviour {
 
     private Node node;
-    [SerializeField] private NodeData nodeData;
-    [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
+    private NodeData nodeData;
+    private NodeVisualManager nodeVisualManager;
+
     [SerializeField] private Resource resourcePrefab;
+
     private Dictionary<Node, float> nodeGenerationTimerMax = new Dictionary<Node, float>();
     private Dictionary<Node, float> nodeGenerationTimer = new Dictionary<Node, float>();
     private float defaultGenerationTimerMax = 0.5f;
 
     private void Awake() {
         node = GetComponent<Node>();
+        nodeData = GetComponent<NodeData>();
+        nodeVisualManager = GetComponent<NodeVisualManager>();
     }
 
     public void UpdateResourceGenerationTimer() {
@@ -55,7 +59,7 @@ public class ResourceGenerator : MonoBehaviour {
                 if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
                     SpawnResourceGameObject(transferTo);
                     nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;
-                    nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+                    nodeVisualManager.UpdateCurrentIngredientsVisual();
                 }
                 break;
         }

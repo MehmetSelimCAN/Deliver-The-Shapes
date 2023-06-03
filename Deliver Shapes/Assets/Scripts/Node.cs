@@ -15,8 +15,7 @@ public class Node : MonoBehaviour {
     public ResourceGenerator ResourceGenerator { get { return resourceGenerator; } }
 
     private NodeData nodeData;
-    [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
-    [SerializeField] private NodeLockedComponents nodeLockedComponents;
+    private NodeVisualManager nodeVisualManager;
 
     private float nodeRadius;
     public float NodeRadius { get { return nodeRadius; } }
@@ -24,18 +23,8 @@ public class Node : MonoBehaviour {
     private void Awake() {
         resourceGenerator = GetComponent<ResourceGenerator>();
         nodeData = GetComponent<NodeData>();
+        nodeVisualManager = GetComponent<NodeVisualManager>();
         nodeRadius = GetComponent<CircleCollider2D>().radius;
-    }
-
-    private void OnValidate() {
-        if (isLocked) {
-            nodeUnlockedComponents.gameObject.SetActive(false);
-            nodeLockedComponents.gameObject.SetActive(true);
-        }
-        else {
-            nodeLockedComponents.gameObject.SetActive(false);
-            nodeUnlockedComponents.gameObject.SetActive(true);
-        }
     }
 
     public bool CanConnect(Node nodeToConnect) {
@@ -119,14 +108,15 @@ public class Node : MonoBehaviour {
                     requiredIngredient.count--;
                 }
             }
-            nodeLockedComponents.UpdateRequiredIngredientsVisual();
+
+            nodeVisualManager.UpdateRequiredIngredientsVisual();
         }
 
         else {
             if (nodeData.CurrentIngredients.ContainsKey(resource.ResourceType)) {
                 if (nodeData.CurrentIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
                     nodeData.CurrentIngredients[resource.ResourceType]++;
-                    nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+                    nodeVisualManager.UpdateCurrentIngredientsVisual();
                     if (CanInputsChangeToOutput()) {
                         ChangeInputsToOutput();
                     }
@@ -157,7 +147,7 @@ public class Node : MonoBehaviour {
         }
 
         nodeData.CurrentIngredients[nodeData.OutputResourceType]++;
-        nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+        nodeVisualManager.UpdateCurrentIngredientsVisual();
     }
 
     public void BreakLink(Node connectedNode) {

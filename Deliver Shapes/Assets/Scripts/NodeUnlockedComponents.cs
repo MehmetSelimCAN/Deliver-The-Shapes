@@ -25,7 +25,6 @@ public class NodeUnlockedComponents : MonoBehaviour {
         if (nodeData.NodeType == NodeType.Other) {
             CreateInputIngredientsVisual();
             CreateCurrentIngredientsVisual();
-
         }
 
         CreateOutputIngredientVisual();
