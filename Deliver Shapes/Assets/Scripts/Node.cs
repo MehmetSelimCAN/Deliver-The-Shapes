@@ -29,6 +29,10 @@ public class Node : MonoBehaviour {
 
     public bool CanConnect(Node nodeToConnect) {
         if (isLocked) {
+            if (nodeToConnect.isLocked) {
+                return false;
+            }
+
             foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
                 if(requiredIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
                     return true;
@@ -76,18 +80,20 @@ public class Node : MonoBehaviour {
         nodeToConnect.resourceGenerator?.UpdateResourceGenerationTimer();
     }
 
-    public bool CanGetResource(Resource resource) {
+    public bool CanGetResource(ResourceType resourceType) {
         if (isLocked) {
             foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
-                if (requiredIngredient.resourceType == resource.ResourceType && requiredIngredient.count > 0) {
+                if (requiredIngredient.resourceType == resourceType && requiredIngredient.count > 0) {
                     return true;
                 }
             }
         }
         else {
-            if (nodeUnlockedComponents.CollectableIngredients.ContainsKey(resource.ResourceType)) {
-                if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
-                    return true;
+            foreach (var inputIngredient in nodeData.InputIngredients) {
+                if (inputIngredient.resourceType == resourceType) {
+                    if (nodeData.CurrentIngredients[resourceType] < nodeData.MaximumResourceCapacity) {
+                        return true;
+                    }
                 }
             }
         }
@@ -102,19 +108,45 @@ public class Node : MonoBehaviour {
                     requiredIngredient.count--;
                 }
             }
-            nodeLockedComponents.UpdateRequiredIngredients();
+            nodeLockedComponents.UpdateRequiredIngredientsVisual();
         }
 
         else {
-            if (nodeUnlockedComponents.CollectableIngredients.ContainsKey(resource.ResourceType)) {
-                if (nodeUnlockedComponents.CollectableIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
-                    nodeUnlockedComponents.CollectableIngredients[resource.ResourceType]++;
+            if (nodeData.CurrentIngredients.ContainsKey(resource.ResourceType)) {
+                if (nodeData.CurrentIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                    nodeData.CurrentIngredients[resource.ResourceType]++;
                     nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+                    if (CanInputsChangeToOutput()) {
+                        ChangeInputsToOutput();
+                    }
                 }
             }
         }
 
         Destroy(resource.gameObject);
+    }
+
+    private bool CanInputsChangeToOutput() {
+        if (nodeData.CurrentIngredients[nodeData.OutputResourceType] >= nodeData.MaximumResourceCapacity) {
+            return false;
+        }
+
+        foreach (var inputIngredient in nodeData.InputIngredients) {
+            if (nodeData.CurrentIngredients[inputIngredient.resourceType] < inputIngredient.count) {
+                return false;
+            } 
+        }
+
+        return true;
+    }
+
+    private void ChangeInputsToOutput() {
+        foreach (var inputIngredient in nodeData.InputIngredients) {
+            nodeData.CurrentIngredients[inputIngredient.resourceType] -= inputIngredient.count;
+        }
+
+        nodeData.CurrentIngredients[nodeData.OutputResourceType]++;
+        nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
     }
 
     public void BreakLink(Node connectedNode) {

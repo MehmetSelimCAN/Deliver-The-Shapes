@@ -12,18 +12,12 @@ public class NodeUnlockedComponents : MonoBehaviour {
 
     [SerializeField] private Image outputIngredientImage;
 
-    [SerializeField] private Transform collectableIngredientsParent;
-    [SerializeField] private Transform collectableIngredientTemplate;
-    private List<IngredientVisual> collectableIngredientsVisual = new List<IngredientVisual>();
-
-    private Dictionary<ResourceType, int> collectableIngredients = new Dictionary<ResourceType, int>();
-    public Dictionary<ResourceType, int> CollectableIngredients { get { return collectableIngredients; } }
-
+    [SerializeField] private Transform currentIngredientsParent;
+    [SerializeField] private Transform currentIngredientTemplate;
+    private List<IngredientVisual> currentIngredientsVisual = new List<IngredientVisual>();
 
     private void Awake() {
         nodeData = GetComponentInParent<NodeData>();
-
-        
     }
 
     private void Start() {
@@ -33,38 +27,36 @@ public class NodeUnlockedComponents : MonoBehaviour {
     }
 
     private void CreateInputIngredientsVisual() {
-        for (int i = 0; i < nodeData.InputIngredients.Count; i++) {
-            var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
+        foreach (var inputIngredient in nodeData.InputIngredients) {
+            var inputIngredientVisual = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            inputIngredient.ResourceType = nodeData.InputIngredients[i].resourceType;
-            inputIngredient.UpdateSprite();
-            inputIngredient.UpdateCount(nodeData.InputIngredients[i].count);
-            collectableIngredients.Add(inputIngredient.ResourceType, 0);
-            inputIngredient.gameObject.SetActive(true);
+            inputIngredientVisual.ResourceType = inputIngredient.resourceType;
+            inputIngredientVisual.UpdateSprite();
+            inputIngredientVisual.UpdateCount(inputIngredient.count);
+            inputIngredientVisual.gameObject.SetActive(true);
         }
     }
 
     private void CreateOutputIngredientVisual() {
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
-        collectableIngredients.Add(nodeData.OutputResourceType, 0);
     }
 
     private void CreateCurrentIngredientsVisual() {
-        foreach (var collectableIngredientResourceType in collectableIngredients.Keys) {
-            var collectableIngredient = Instantiate(collectableIngredientTemplate, collectableIngredientsParent).GetComponent<IngredientVisual>();
+        foreach (var currentIngredient in nodeData.CurrentIngredients) {
+            var currentIngredientVisual = Instantiate(currentIngredientTemplate, currentIngredientsParent).GetComponent<IngredientVisual>();
 
-            collectableIngredient.ResourceType = collectableIngredientResourceType;
-            collectableIngredient.UpdateSprite();
-            collectableIngredient.UpdateCount();
+            currentIngredientVisual.ResourceType = currentIngredient.Key;
+            currentIngredientVisual.UpdateSprite();
+            currentIngredientVisual.UpdateCount();
 
-            collectableIngredientsVisual.Add(collectableIngredient);
-            collectableIngredient.gameObject.SetActive(true);
+            currentIngredientsVisual.Add(currentIngredientVisual);
+            currentIngredientVisual.gameObject.SetActive(true);
         }
     }
 
     public void UpdateCurrentIngredientsVisual() {
-        foreach (var ingredientVisual in collectableIngredientsVisual) {
-            ingredientVisual.UpdateCount(CollectableIngredients[ingredientVisual.ResourceType]);
+        foreach (var ingredientVisual in currentIngredientsVisual) {
+            ingredientVisual.UpdateCount(nodeData.CurrentIngredients[ingredientVisual.ResourceType]);
         }
     }
 }

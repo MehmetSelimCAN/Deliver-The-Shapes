@@ -19,10 +19,24 @@ public class NodeData : MonoBehaviour {
     [SerializeField] private List<RequiredIngredient> inputIngredients = new List<RequiredIngredient>();
     public List<RequiredIngredient> InputIngredients { get { return inputIngredients; } }
 
+    [SerializeField] private Dictionary<ResourceType, int> currentIngredients = new Dictionary<ResourceType, int>();
+    public Dictionary<ResourceType, int> CurrentIngredients { get { return currentIngredients; } }
+
     [SerializeField] private ResourceType outputResourceType;
     public ResourceType OutputResourceType { get { return outputResourceType; } }
 
     [SerializeField] private int maximumResourceCapacity = 10;
     public int MaximumResourceCapacity { get { return maximumResourceCapacity; } }
 
+    private void Awake() {
+        InitializeCurrentIngredients();
+    }
+
+    private void InitializeCurrentIngredients() {
+        foreach (var inputIngredient in inputIngredients) {
+            currentIngredients.Add(inputIngredient.resourceType, 0);
+        }
+
+        currentIngredients.Add(outputResourceType, 0);
+    }
 }

@@ -5,10 +5,14 @@ using UnityEngine;
 public class ResourceGenerator : MonoBehaviour {
 
     private Node node;
+    [SerializeField] private NodeData nodeData;
+    [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
     [SerializeField] private Resource resourcePrefab;
     private Dictionary<Node, float> nodeGenerationTimerMax = new Dictionary<Node, float>();
     private Dictionary<Node, float> nodeGenerationTimer = new Dictionary<Node, float>();
     private float defaultGenerationTimerMax = 0.5f;
+
+    public bool isMainGenerator;
 
     private void Awake() {
         node = GetComponent<Node>();
@@ -26,13 +30,18 @@ public class ResourceGenerator : MonoBehaviour {
     }
 
     private void Update() {
+        if (node.IsLocked) return;
+        if (node.ConnectedNodesLinks.Count == 0) return;
+
         foreach (Node connectedNode in nodeGenerationTimerMax.Keys) {
-            nodeGenerationTimer[connectedNode] -= Time.deltaTime;
+            if (connectedNode.CanGetResource(resourcePrefab.ResourceType)) {
+                nodeGenerationTimer[connectedNode] -= Time.deltaTime;
+            }
         }
 
-        if (!node.IsLocked) {
-            foreach (Node transferTo in node.ConnectedNodesLinks.Keys) {
-                if (transferTo.CanGetResource(resourcePrefab) && nodeGenerationTimer[transferTo] < 0) {
+        foreach (Node transferTo in node.ConnectedNodesLinks.Keys) {
+            if (nodeGenerationTimer[transferTo] < 0) {
+                if (transferTo.CanGetResource(resourcePrefab.ResourceType)) {
                     SpawnResource(transferTo);
                 }
             }
@@ -40,8 +49,19 @@ public class ResourceGenerator : MonoBehaviour {
     }
 
     private void SpawnResource(Node transferTo) {
-        Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
-        resource.MoveTo(transferTo);
-        nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
+        if (isMainGenerator) {
+            Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
+            resource.MoveTo(transferTo);
+            nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
+        }
+        else {
+            if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
+                Resource resource = Instantiate(resourcePrefab, transform.position, resourcePrefab.transform.rotation);
+                resource.MoveTo(transferTo);
+                nodeGenerationTimer[transferTo] = nodeGenerationTimerMax[transferTo];
+                nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;
+                nodeUnlockedComponents.UpdateCurrentIngredientsVisual();
+            }
+        }
     }
 }

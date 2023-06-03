@@ -60,7 +60,7 @@ public class Link : MonoBehaviour {
         lineRenderer.startColor = Color.red;
         lineRenderer.endColor = Color.red;
 
-        Debug.Log("link sayýsý " + connectedNodes[0].ConnectedNodesLinks[connectedNodes[1]]);
+        //Debug.Log("link sayýsý " + connectedNodes[0].ConnectedNodesLinks[connectedNodes[1]]);
     }
 
     private void OnMouseExit() {

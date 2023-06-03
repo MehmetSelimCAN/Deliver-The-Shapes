@@ -25,19 +25,21 @@ public class NodeLockedComponents : MonoBehaviour {
     private void Awake() {
         node = GetComponentInParent<Node>();
         nodeData = GetComponentInParent<NodeData>();
+    }
 
+    private void Start() {
         CreateRequiredIngredientsVisual();
         UpdateEarnLinkCount();
         CreateInputOutputIngredientsVisual();
     }
 
     private void CreateRequiredIngredientsVisual() {
-        for (int i = 0; i < nodeData.RequiredIngredientsToUnlock.Count; i++) {
+        foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
             var requiredIngredientVisual = Instantiate(requiredIngredientTemplate, requiredIngredientsParent).GetComponent<IngredientVisual>();
 
-            requiredIngredientVisual.ResourceType = nodeData.RequiredIngredientsToUnlock[i].resourceType;
+            requiredIngredientVisual.ResourceType = requiredIngredient.resourceType;
             requiredIngredientVisual.UpdateSprite();
-            requiredIngredientVisual.UpdateCount(nodeData.RequiredIngredientsToUnlock[i].count);
+            requiredIngredientVisual.UpdateCount(requiredIngredient.count);
 
             requiredIngredientVisual.gameObject.SetActive(true);
             requiredIngredientVisuals.Add(requiredIngredientVisual);
@@ -49,35 +51,49 @@ public class NodeLockedComponents : MonoBehaviour {
     }
 
     private void CreateInputOutputIngredientsVisual() {
-        for (int i = 0; i < nodeData.InputIngredients.Count; i++) {
-            var inputIngredient = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
+        foreach (var inputIngredient in nodeData.InputIngredients) {
+            var inputIngredientVisual = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            inputIngredient.ResourceType = nodeData.InputIngredients[i].resourceType;
-            inputIngredient.UpdateSprite();
-            inputIngredient.UpdateCount(nodeData.InputIngredients[i].count);
+            inputIngredientVisual.ResourceType = inputIngredient.resourceType;
+            inputIngredientVisual.UpdateSprite();
+            inputIngredientVisual.UpdateCount(inputIngredient.count);
 
-            inputIngredient.gameObject.SetActive(true);
+            inputIngredientVisual.gameObject.SetActive(true);
         }
 
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 
-    public void UpdateRequiredIngredients() {
-        for (int i = 0; i < requiredIngredientVisuals.Count; i++) {
-            int requiredIngredientCount = nodeData.RequiredIngredientsToUnlock[i].count;
-            requiredIngredientVisuals[i].UpdateCount(requiredIngredientCount);
-
-            if (requiredIngredientCount == 0) {
-                requiredIngredientVisuals[i].gameObject.SetActive(false);
+    public void UpdateRequiredIngredientsVisual() {
+        foreach (var requiredIngredientVisual in requiredIngredientVisuals) {
+            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
+                if (requiredIngredientVisual.ResourceType == requiredIngredient.resourceType) {
+                    if (requiredIngredient.count == 0) {
+                        requiredIngredientVisual.gameObject.SetActive(false);
+                    }
+                    else {
+                        requiredIngredientVisual.UpdateCount(requiredIngredient.count);
+                    }
+                }
             }
         }
 
-        for (int i = 0; i < requiredIngredientVisuals.Count; i++) {
-            if (requiredIngredientVisuals[i].gameObject.activeInHierarchy) {
-                return;
+        if (IsUnlockable()) {
+            UnlockNode();
+        }
+    }
+
+    private bool IsUnlockable() {
+        foreach (var requiredIngredientVisual in requiredIngredientVisuals) {
+            if (requiredIngredientVisual.gameObject.activeInHierarchy) {
+                return false;
             }
         }
 
+        return true;
+    }
+
+    private void UnlockNode() {
         nodeUnlockedComponents.gameObject.SetActive(true);
         gameObject.SetActive(false);
         node.Unlock();
