@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4688393800459536835}
   - component: {fileID: 4688393800459536844}
   m_Layer: 0
-  m_Name: SquarePrefab
+  m_Name: CirclePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2180b68c3b3de724588c048e4e5581f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e54d04f320b3a464fac380bdc2c0808a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,4 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d2bc82e6698ee44a2728ed5ac4dd17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resourceType: 2
+  resourceType: 1

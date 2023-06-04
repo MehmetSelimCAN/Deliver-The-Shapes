@@ -102,6 +102,12 @@ public class Node : MonoBehaviour {
     }
 
     public void GetResource(Resource resource) {
+        if (nodeData.NodeType == NodeType.Final) {
+            Destroy(resource.gameObject);
+            Debug.Log("Win");
+            return;
+        }
+
         if (isLocked) {
             foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
                 if (resource.ResourceType == requiredIngredient.resourceType) {

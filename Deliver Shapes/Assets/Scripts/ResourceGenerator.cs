@@ -36,14 +36,14 @@ public class ResourceGenerator : MonoBehaviour {
         if (node.ConnectedNodesLinks.Count == 0) return;
 
         foreach (Node connectedNode in nodeGenerationTimerMax.Keys) {
-            if (connectedNode.CanGetResource(resourcePrefab.ResourceType)) {
+            if (connectedNode.CanGetResource(nodeData.OutputResourceType)) {
                 nodeGenerationTimer[connectedNode] -= Time.deltaTime;
             }
         }
 
         foreach (Node transferTo in node.ConnectedNodesLinks.Keys) {
             if (nodeGenerationTimer[transferTo] < 0) {
-                if (transferTo.CanGetResource(resourcePrefab.ResourceType)) {
+                if (transferTo.CanGetResource(nodeData.OutputResourceType)) {
                     SpawnResource(transferTo);
                 }
             }
@@ -56,9 +56,9 @@ public class ResourceGenerator : MonoBehaviour {
                 SpawnResourceGameObject(transferTo);
                 break;
             case NodeType.Other:
-                if (nodeData.CurrentIngredients[resourcePrefab.ResourceType] > 0) {
+                if (nodeData.CurrentIngredients[nodeData.OutputResourceType] > 0) {
                     SpawnResourceGameObject(transferTo);
-                    nodeData.CurrentIngredients[resourcePrefab.ResourceType]--;
+                    nodeData.CurrentIngredients[nodeData.OutputResourceType]--;
                     nodeVisualManager.UpdateCurrentIngredientsVisual();
                 }
                 break;
