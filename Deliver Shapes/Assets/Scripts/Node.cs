@@ -33,31 +33,24 @@ public class Node : MonoBehaviour {
                 return false;
             }
 
-            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
-                if(requiredIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
+            if (nodeData.RequiredIngredientsDictionary.ContainsKey(nodeToConnect.nodeData.OutputResourceType)) {
+                return true;
+            }
+        }
+
+        else if (!isLocked) {
+            if (nodeToConnect.IsLocked) {
+                if (nodeToConnect.nodeData.RequiredIngredientsDictionary.ContainsKey(nodeData.OutputResourceType)) {
                     return true;
                 }
             }
-        }
-        else if (!isLocked) {
-            if (nodeToConnect.IsLocked) {
-                foreach (var requiredIngredient in nodeToConnect.nodeData.RequiredIngredientsToUnlock) {
-                    if (requiredIngredient.resourceType == nodeData.OutputResourceType) {
-                        return true;
-                    }
-                }
-            }
             else {
-                foreach (var inputIngredient in nodeToConnect.nodeData.InputIngredients) {
-                    if (inputIngredient.resourceType == nodeData.OutputResourceType) {
-                        return true;
-                    }
+                if (nodeToConnect.nodeData.InputIngredientsDictionary.ContainsKey(nodeData.OutputResourceType)) {
+                    return true;
                 }
 
-                foreach (var inputIngredient in nodeData.InputIngredients) {
-                    if (inputIngredient.resourceType == nodeToConnect.nodeData.OutputResourceType) {
-                        return true;
-                    }
+                if (nodeData.InputIngredientsDictionary.ContainsKey(nodeToConnect.nodeData.OutputResourceType)) {
+                    return true;
                 }
             }
         }
@@ -82,18 +75,16 @@ public class Node : MonoBehaviour {
 
     public bool CanGetResource(ResourceType resourceType) {
         if (isLocked) {
-            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
-                if (requiredIngredient.resourceType == resourceType && requiredIngredient.count > 0) {
+            if (nodeData.RequiredIngredientsDictionary.ContainsKey(resourceType)) {
+                if (nodeData.RequiredIngredientsDictionary[resourceType] > 0) {
                     return true;
                 }
             }
         }
         else {
-            foreach (var inputIngredient in nodeData.InputIngredients) {
-                if (inputIngredient.resourceType == resourceType) {
-                    if (nodeData.CurrentIngredients[resourceType] < nodeData.MaximumResourceCapacity) {
-                        return true;
-                    }
+            if (nodeData.InputIngredientsDictionary.ContainsKey(resourceType)) {
+                if (nodeData.CurrentIngredientsDictionary[resourceType] < nodeData.MaximumResourceCapacity) {
+                    return true;
                 }
             }
         }
@@ -109,19 +100,17 @@ public class Node : MonoBehaviour {
         }
 
         if (isLocked) {
-            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
-                if (resource.ResourceType == requiredIngredient.resourceType) {
-                    requiredIngredient.count--;
-                }
+            if (nodeData.RequiredIngredientsDictionary.ContainsKey(resource.ResourceType)) {
+                nodeData.RequiredIngredientsDictionary[resource.ResourceType]--;
             }
 
             nodeVisualManager.UpdateRequiredIngredientsVisual();
         }
 
         else {
-            if (nodeData.CurrentIngredients.ContainsKey(resource.ResourceType)) {
-                if (nodeData.CurrentIngredients[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
-                    nodeData.CurrentIngredients[resource.ResourceType]++;
+            if (nodeData.CurrentIngredientsDictionary.ContainsKey(resource.ResourceType)) {
+                if (nodeData.CurrentIngredientsDictionary[resource.ResourceType] < nodeData.MaximumResourceCapacity) {
+                    nodeData.CurrentIngredientsDictionary[resource.ResourceType]++;
                     nodeVisualManager.UpdateCurrentIngredientsVisual();
                     if (CanInputsChangeToOutput()) {
                         ChangeInputsToOutput();
@@ -134,25 +123,25 @@ public class Node : MonoBehaviour {
     }
 
     private bool CanInputsChangeToOutput() {
-        if (nodeData.CurrentIngredients[nodeData.OutputResourceType] >= nodeData.MaximumResourceCapacity) {
+        if (nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType] >= nodeData.MaximumResourceCapacity) {
             return false;
         }
 
-        foreach (var inputIngredient in nodeData.InputIngredients) {
-            if (nodeData.CurrentIngredients[inputIngredient.resourceType] < inputIngredient.count) {
+        foreach (var inputIngredientResourceType in nodeData.InputIngredientsDictionary.Keys) {
+            if (nodeData.CurrentIngredientsDictionary[inputIngredientResourceType] < nodeData.InputIngredientsDictionary[inputIngredientResourceType]) {
                 return false;
-            } 
-        }
+            }
+        } 
 
         return true;
     }
 
     private void ChangeInputsToOutput() {
-        foreach (var inputIngredient in nodeData.InputIngredients) {
-            nodeData.CurrentIngredients[inputIngredient.resourceType] -= inputIngredient.count;
+        foreach (var inputIngredientResourceType in nodeData.InputIngredientsDictionary.Keys) {
+            nodeData.CurrentIngredientsDictionary[inputIngredientResourceType] -= nodeData.InputIngredientsDictionary[inputIngredientResourceType];
         }
 
-        nodeData.CurrentIngredients[nodeData.OutputResourceType]++;
+        nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType]++;
         nodeVisualManager.UpdateCurrentIngredientsVisual();
     }
 

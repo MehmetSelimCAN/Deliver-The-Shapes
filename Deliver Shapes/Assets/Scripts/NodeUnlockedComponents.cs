@@ -22,22 +22,32 @@ public class NodeUnlockedComponents : MonoBehaviour {
     }
 
     private void Start() {
-        if (nodeData.NodeType == NodeType.Other) {
-            CreateInputIngredientsVisual();
-            CreateCurrentIngredientsVisual();
-        }
-
+        CreateInputIngredientsVisual();
+        CreateCurrentIngredientsVisual();
         CreateOutputIngredientVisual();
     }
 
     private void CreateInputIngredientsVisual() {
-        foreach (var inputIngredient in nodeData.InputIngredients) {
+        foreach (var inputIngredientResourceType in nodeData.InputIngredientsDictionary.Keys) {
             var inputIngredientVisual = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            inputIngredientVisual.ResourceType = inputIngredient.resourceType;
+            inputIngredientVisual.UpdateResourceType(inputIngredientResourceType);
             inputIngredientVisual.UpdateSprite();
-            inputIngredientVisual.UpdateCount(inputIngredient.count);
+            inputIngredientVisual.UpdateCount(nodeData.InputIngredientsDictionary[inputIngredientResourceType]);
             inputIngredientVisual.gameObject.SetActive(true);
+        }
+    }
+
+    private void CreateCurrentIngredientsVisual() {
+        foreach (var currentIngredientResourceType in nodeData.CurrentIngredientsDictionary.Keys) {
+            var currentIngredientVisual = Instantiate(currentIngredientTemplate, currentIngredientsParent).GetComponent<IngredientVisual>();
+
+            currentIngredientVisual.UpdateResourceType(currentIngredientResourceType);
+            currentIngredientVisual.UpdateSprite();
+            currentIngredientVisual.UpdateCount();
+
+            currentIngredientsVisual.Add(currentIngredientVisual);
+            currentIngredientVisual.gameObject.SetActive(true);
         }
     }
 
@@ -49,22 +59,9 @@ public class NodeUnlockedComponents : MonoBehaviour {
         }
     }
 
-    private void CreateCurrentIngredientsVisual() {
-        foreach (var currentIngredient in nodeData.CurrentIngredients) {
-            var currentIngredientVisual = Instantiate(currentIngredientTemplate, currentIngredientsParent).GetComponent<IngredientVisual>();
-
-            currentIngredientVisual.ResourceType = currentIngredient.Key;
-            currentIngredientVisual.UpdateSprite();
-            currentIngredientVisual.UpdateCount();
-
-            currentIngredientsVisual.Add(currentIngredientVisual);
-            currentIngredientVisual.gameObject.SetActive(true);
-        }
-    }
-
     public void UpdateCurrentIngredientsVisual() {
         foreach (var ingredientVisual in currentIngredientsVisual) {
-            ingredientVisual.UpdateCount(nodeData.CurrentIngredients[ingredientVisual.ResourceType]);
+            ingredientVisual.UpdateCount(nodeData.CurrentIngredientsDictionary[ingredientVisual.ResourceType]);
         }
     }
 }

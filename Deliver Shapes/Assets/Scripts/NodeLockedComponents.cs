@@ -30,16 +30,17 @@ public class NodeLockedComponents : MonoBehaviour {
     private void Start() {
         CreateRequiredIngredientsVisual();
         UpdateEarnLinkCount();
-        CreateInputOutputIngredientsVisual();
+        CreateInputIngredientsVisual();
+        CreateOutputIngredientsVisual();
     }
 
     private void CreateRequiredIngredientsVisual() {
-        foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
+        foreach (var requiredIngredientResourceType in nodeData.RequiredIngredientsDictionary.Keys) {
             var requiredIngredientVisual = Instantiate(requiredIngredientTemplate, requiredIngredientsParent).GetComponent<IngredientVisual>();
 
-            requiredIngredientVisual.ResourceType = requiredIngredient.resourceType;
+            requiredIngredientVisual.UpdateResourceType(requiredIngredientResourceType);
             requiredIngredientVisual.UpdateSprite();
-            requiredIngredientVisual.UpdateCount(requiredIngredient.count);
+            requiredIngredientVisual.UpdateCount(nodeData.RequiredIngredientsDictionary[requiredIngredientResourceType]);
 
             requiredIngredientVisual.gameObject.SetActive(true);
             requiredIngredientVisuals.Add(requiredIngredientVisual);
@@ -50,30 +51,30 @@ public class NodeLockedComponents : MonoBehaviour {
         earnedLinkCountText.SetText("+" + nodeData.EarnedLinkCount);
     }
 
-    private void CreateInputOutputIngredientsVisual() {
-        foreach (var inputIngredient in nodeData.InputIngredients) {
+    private void CreateInputIngredientsVisual() {
+        foreach (var inputIngredientResourceType in nodeData.InputIngredientsDictionary.Keys) {
             var inputIngredientVisual = Instantiate(inputIngredientTemplate, inputIngredientsParent).GetComponent<IngredientVisual>();
 
-            inputIngredientVisual.ResourceType = inputIngredient.resourceType;
+            inputIngredientVisual.UpdateResourceType(inputIngredientResourceType);
             inputIngredientVisual.UpdateSprite();
-            inputIngredientVisual.UpdateCount(inputIngredient.count);
+            inputIngredientVisual.UpdateCount(nodeData.InputIngredientsDictionary[inputIngredientResourceType]);
 
             inputIngredientVisual.gameObject.SetActive(true);
         }
+    }
 
+    private void CreateOutputIngredientsVisual() {
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 
     public void UpdateRequiredIngredientsVisual() {
         foreach (var requiredIngredientVisual in requiredIngredientVisuals) {
-            foreach (var requiredIngredient in nodeData.RequiredIngredientsToUnlock) {
-                if (requiredIngredientVisual.ResourceType == requiredIngredient.resourceType) {
-                    if (requiredIngredient.count == 0) {
-                        requiredIngredientVisual.gameObject.SetActive(false);
-                    }
-                    else {
-                        requiredIngredientVisual.UpdateCount(requiredIngredient.count);
-                    }
+            if (nodeData.RequiredIngredientsDictionary.ContainsKey(requiredIngredientVisual.ResourceType)) {
+                if (nodeData.RequiredIngredientsDictionary[requiredIngredientVisual.ResourceType] <= 0) {
+                    requiredIngredientVisual.gameObject.SetActive(false);
+                }
+                else {
+                    requiredIngredientVisual.UpdateCount(nodeData.RequiredIngredientsDictionary[requiredIngredientVisual.ResourceType]);
                 }
             }
         }

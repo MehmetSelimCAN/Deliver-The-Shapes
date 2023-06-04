@@ -56,9 +56,9 @@ public class ResourceGenerator : MonoBehaviour {
                 SpawnResourceGameObject(transferTo);
                 break;
             case NodeType.Other:
-                if (nodeData.CurrentIngredients[nodeData.OutputResourceType] > 0) {
+                if (nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType] > 0) {
                     SpawnResourceGameObject(transferTo);
-                    nodeData.CurrentIngredients[nodeData.OutputResourceType]--;
+                    nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType]--;
                     nodeVisualManager.UpdateCurrentIngredientsVisual();
                 }
                 break;

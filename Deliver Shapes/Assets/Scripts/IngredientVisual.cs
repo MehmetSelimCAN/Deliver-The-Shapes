@@ -13,6 +13,10 @@ public class IngredientVisual : MonoBehaviour {
     [SerializeField] private Image ingredientImage;
     [SerializeField] private TextMeshProUGUI countText;
 
+    public void UpdateResourceType(ResourceType resourceType) {
+        this.resourceType = resourceType;
+    }
+
     public void UpdateSprite() {
         Sprite resourceSprite = SpriteProvider.Instance.GetResourceSprite(resourceType);
         ingredientImage.sprite = resourceSprite;
