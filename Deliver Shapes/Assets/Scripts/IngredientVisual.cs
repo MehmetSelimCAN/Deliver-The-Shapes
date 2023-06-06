@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class IngredientVisual : MonoBehaviour {
 
     private ResourceType resourceType;
-    public ResourceType ResourceType { get { return resourceType; } set { resourceType = value; } }
+    public ResourceType ResourceType { get { return resourceType; }}
 
     [SerializeField] private Image ingredientImage;
     [SerializeField] private TextMeshProUGUI countText;

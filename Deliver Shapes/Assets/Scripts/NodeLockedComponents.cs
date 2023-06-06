@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,9 +8,7 @@ using UnityEngine.UI;
 
 public class NodeLockedComponents : MonoBehaviour {
 
-    private Node node;
     private NodeData nodeData;
-    [SerializeField] private NodeUnlockedComponents nodeUnlockedComponents;
 
     [SerializeField] private Transform requiredIngredientsParent;
     [SerializeField] private Transform requiredIngredientTemplate;
@@ -23,7 +22,6 @@ public class NodeLockedComponents : MonoBehaviour {
     [SerializeField] private Image outputIngredientImage;
 
     private void Awake() {
-        node = GetComponentInParent<Node>();
         nodeData = GetComponentInParent<NodeData>();
     }
 
@@ -70,33 +68,22 @@ public class NodeLockedComponents : MonoBehaviour {
     public void UpdateRequiredIngredientsVisual() {
         foreach (var requiredIngredientVisual in requiredIngredientVisuals) {
             if (nodeData.RequiredIngredientsDictionary.ContainsKey(requiredIngredientVisual.ResourceType)) {
-                if (nodeData.RequiredIngredientsDictionary[requiredIngredientVisual.ResourceType] <= 0) {
-                    requiredIngredientVisual.gameObject.SetActive(false);
+                if (HasRequiredIngredientCompleted(requiredIngredientVisual.ResourceType)) {
+                    RequiredIngredientCompleted(requiredIngredientVisual);
                 }
                 else {
                     requiredIngredientVisual.UpdateCount(nodeData.RequiredIngredientsDictionary[requiredIngredientVisual.ResourceType]);
                 }
             }
         }
-
-        if (IsUnlockable()) {
-            UnlockNode();
-        }
     }
 
-    private bool IsUnlockable() {
-        foreach (var requiredIngredientVisual in requiredIngredientVisuals) {
-            if (requiredIngredientVisual.gameObject.activeInHierarchy) {
-                return false;
-            }
-        }
-
-        return true;
+    private bool HasRequiredIngredientCompleted(ResourceType resourceType) {
+        bool hasCompleted = nodeData.RequiredIngredientsDictionary[resourceType] <= 0;
+        return hasCompleted;
     }
 
-    private void UnlockNode() {
-        nodeUnlockedComponents.gameObject.SetActive(true);
-        gameObject.SetActive(false);
-        node.Unlock();
+    private void RequiredIngredientCompleted(IngredientVisual requiredIngredientVisual) {
+        requiredIngredientVisual.gameObject.SetActive(false);
     }
 }

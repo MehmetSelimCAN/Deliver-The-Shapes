@@ -14,8 +14,6 @@ public class NodeData : MonoBehaviour {
     }
 
     [SerializeField] private List<RequiredIngredient> requiredIngredientsToUnlock = new List<RequiredIngredient>();
-    //public List<RequiredIngredient> RequiredIngredientsToUnlock { get { return requiredIngredientsToUnlock; } }
-
     private Dictionary<ResourceType, int> requiredIngredientsDictionary = new Dictionary<ResourceType, int>();
     public Dictionary<ResourceType, int> RequiredIngredientsDictionary { get { return requiredIngredientsDictionary; } }
 
@@ -23,8 +21,6 @@ public class NodeData : MonoBehaviour {
     public int EarnedLinkCount { get { return earnedLinkCount; } }
 
     [SerializeField] private List<RequiredIngredient> inputIngredients = new List<RequiredIngredient>();
-    //public List<RequiredIngredient> InputIngredients { get { return inputIngredients; } }
-
     private Dictionary<ResourceType, int> inputIngredientsDictionary = new Dictionary<ResourceType, int>();
     public Dictionary<ResourceType, int> InputIngredientsDictionary { get { return inputIngredientsDictionary; } }
 

@@ -54,9 +54,13 @@ public class NodeUnlockedComponents : MonoBehaviour {
     private void CreateOutputIngredientVisual() {
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
         if (nodeData.NodeType == NodeType.Main) {
-            outputIngredientImage.gameObject.transform.position = transform.position;
-            arrowImage.gameObject.SetActive(false);
+            AdjustMainNodeOutputIngredient();
         }
+    }
+
+    private void AdjustMainNodeOutputIngredient() {
+        outputIngredientImage.gameObject.transform.position = transform.position;
+        arrowImage.gameObject.SetActive(false);
     }
 
     public void UpdateCurrentIngredientsVisual() {
