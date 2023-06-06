@@ -10,7 +10,7 @@ public class Link : MonoBehaviour {
     public EdgeCollider2D EdgeCollider { get { return edgeCollider; } }
 
     private List<Node> connectedNodes = new List<Node>();
-    private bool IsConnected { get { return connectedNodes.Count == 2; } }
+    public bool IsConnected { get { return connectedNodes.Count == 2; } }
 
     List<Vector2> zeroPoints = new List<Vector2> { Vector2.zero, Vector2.zero };
 
@@ -54,6 +54,8 @@ public class Link : MonoBehaviour {
         lineRenderer.endColor = Color.green;
 
         gameObject.SetActive(false);
+
+        LinkManager.Instance.BreakLink();
     }
 
     private void OnMouseEnter() {

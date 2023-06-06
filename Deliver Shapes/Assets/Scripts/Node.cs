@@ -133,6 +133,7 @@ public class Node : MonoBehaviour {
     public void Unlock() {
         nodeVisualManager.HideLockedUI();
         isLocked = false;
+        LinkManager.Instance.EarnLink(nodeData.EarnedLinkCount);
     }
 
     private bool CanInputsChangeToOutput() {

@@ -7,8 +7,11 @@ public class LinkManager : MonoBehaviour {
 
     public static LinkManager Instance { get; private set; }
 
-    [SerializeField] private Link[] links;
+    [SerializeField] private Transform linksParent;
+    [SerializeField] private List<Link> links;
+    [SerializeField] private Link linkPrefab;
     private Link availableLink;
+    [SerializeField] private int maximumLinkCount;
 
     private Node selectedNode;
     private bool isPreviewingLink;
@@ -19,12 +22,16 @@ public class LinkManager : MonoBehaviour {
     }
 
     private void Update() {
+        if (availableLink == null) return;
+
         if (selectedNode != null && !isPreviewingLink) {
             availableLink.LineRenderer.SetPosition(1, GetMousePosition());
         }
     }
 
     public void SelectNode(Node node) {
+        if (availableLink == null) return;
+
         //If the selected nodes are same, do nothing.
         if (selectedNode != null && node == selectedNode) {
             selectedNode = null;
@@ -61,10 +68,16 @@ public class LinkManager : MonoBehaviour {
     }
 
     private Link FindAvailableLink() {
-        foreach (Link link in links) {
-            if (!link.gameObject.activeInHierarchy) {
-                link.gameObject.SetActive(true);
-                return link;
+        for (int i = 0; i < maximumLinkCount; i++) {
+            if (!links[i].IsConnected) {
+                links[i].gameObject.SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < maximumLinkCount; i++) {
+            if (!links[i].gameObject.activeInHierarchy) {
+                links[i].gameObject.SetActive(true);
+                return links[i];
             }
         }
 
@@ -80,6 +93,26 @@ public class LinkManager : MonoBehaviour {
 
     public void UnpreviewLink() {
         isPreviewingLink = false;
+    }
+
+    public void BreakLink() {
+        availableLink = FindAvailableLink();
+    }
+
+    public void EarnLink(int earnedLinkCount) {
+        maximumLinkCount += earnedLinkCount;
+        CreateLinks(earnedLinkCount);
+    }
+
+    private void CreateLinks(int earnedLinkCount) {
+        for (int i = 0; i < earnedLinkCount; i++) {
+            Link newLink = Instantiate(linkPrefab, linksParent);
+            links.Add(newLink);
+        }
+
+        if (availableLink == null) {
+            availableLink = FindAvailableLink();
+        }
     }
 
     private Vector2 GetMousePosition() {
