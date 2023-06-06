@@ -96,15 +96,13 @@ public class Node : MonoBehaviour {
     }
 
     public void GetResource(Resource resource) {
-        if (nodeData.NodeType == NodeType.Final) {
-            Destroy(resource.gameObject);
-            Debug.Log("Win");
+        if (nodeData.NodeType == NodeType.FinalNode) {
+            GameManager.Instance.Win();
             return;
         }
 
         if (isLocked) {
             nodeData.RequiredIngredientsDictionary[resource.ResourceType]--;
-
             nodeVisualManager.UpdateRequiredIngredientsVisual();
 
             if (CanUnlock()) {
@@ -120,8 +118,6 @@ public class Node : MonoBehaviour {
 
             nodeVisualManager.UpdateCurrentIngredientsVisual();
         }
-
-        Destroy(resource.gameObject);
     }
 
     public bool CanUnlock() {

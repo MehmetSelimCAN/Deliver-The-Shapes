@@ -53,7 +53,7 @@ public class NodeUnlockedComponents : MonoBehaviour {
 
     private void CreateOutputIngredientVisual() {
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
-        if (nodeData.NodeType == NodeType.Main) {
+        if (nodeData.NodeType == NodeType.ConstantGeneratorNode) {
             AdjustMainNodeOutputIngredient();
         }
     }

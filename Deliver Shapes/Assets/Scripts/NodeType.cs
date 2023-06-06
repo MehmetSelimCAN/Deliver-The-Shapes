@@ -1,5 +1,5 @@
 public enum NodeType {
-    Main,
-    Other,
-    Final,
+    ConstantGeneratorNode,
+    DependentGeneratorNode,
+    FinalNode,
 }

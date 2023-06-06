@@ -52,10 +52,10 @@ public class ResourceGenerator : MonoBehaviour {
 
     private void SpawnResource(Node transferTo) {
         switch (nodeData.NodeType) {
-            case NodeType.Main:
+            case NodeType.ConstantGeneratorNode:
                 SpawnResourceGameObject(transferTo);
                 break;
-            case NodeType.Other:
+            case NodeType.DependentGeneratorNode:
                 if (nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType] > 0) {
                     SpawnResourceGameObject(transferTo);
                     nodeData.CurrentIngredientsDictionary[nodeData.OutputResourceType]--;

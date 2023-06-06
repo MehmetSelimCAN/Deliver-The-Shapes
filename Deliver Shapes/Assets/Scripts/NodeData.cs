@@ -56,7 +56,7 @@ public class NodeData : MonoBehaviour {
             currentIngredientsDictionary.Add(inputIngredient.resourceType, 0);
         }
 
-        if (nodeType == NodeType.Other) {
+        if (nodeType == NodeType.DependentGeneratorNode) {
             currentIngredientsDictionary.Add(outputResourceType, 0);
         }
     }

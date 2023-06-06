@@ -15,18 +15,18 @@ public class NodeDataEditor : Editor {
         EditorGUILayout.PropertyField(serializedObject.FindProperty("nodeType"));
 
         switch (nodeData.NodeType) {
-            case NodeType.Main:
+            case NodeType.ConstantGeneratorNode:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("earnedLinkCount"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("outputResourceType"));
                 break;
-            case NodeType.Other:
+            case NodeType.DependentGeneratorNode:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("requiredIngredientsToUnlock"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("inputIngredients"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("maximumResourceCapacity"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("earnedLinkCount"));
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("outputResourceType"));
                 break;
-            case NodeType.Final:
+            case NodeType.FinalNode:
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("requiredIngredientsToUnlock"));
                 break;
         }

@@ -20,5 +20,6 @@ public class Resource : MonoBehaviour {
         }
 
         node.GetResource(this);
+        Destroy(gameObject);
     }
 }
