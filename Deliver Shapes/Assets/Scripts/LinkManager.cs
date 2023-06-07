@@ -12,13 +12,21 @@ public class LinkManager : MonoBehaviour {
     [SerializeField] private Link linkPrefab;
     private Link availableLink;
     [SerializeField] private int maximumLinkCount;
+    public int MaximumLinkCount { get { return maximumLinkCount; } }
+
+    [SerializeField] private int currentUsingLinkCount;
+    public int CurrentUsingLinkCount { get { return currentUsingLinkCount; } }
 
     private Node selectedNode;
     private bool isPreviewingLink;
 
+    private LinkUI linkUI;
+
     private void Awake() {
         Instance = this;
         availableLink = FindAvailableLink();
+
+        linkUI = GetComponent<LinkUI>();
     }
 
     private void Update() {
@@ -64,6 +72,9 @@ public class LinkManager : MonoBehaviour {
         availableLink.AdjustPoints(points);
         availableLink.ConnectNodes(node1, node2);
 
+        currentUsingLinkCount++;
+        linkUI.UpdateLinkCountText();
+
         availableLink = FindAvailableLink();
     }
 
@@ -96,11 +107,17 @@ public class LinkManager : MonoBehaviour {
     }
 
     public void BreakLink() {
+        currentUsingLinkCount--;
+        linkUI.UpdateLinkCountText();
+
         availableLink = FindAvailableLink();
+
     }
 
     public void EarnLink(int earnedLinkCount) {
         maximumLinkCount += earnedLinkCount;
+        linkUI.UpdateLinkCountText();
+
         CreateLinks(earnedLinkCount);
     }
 
