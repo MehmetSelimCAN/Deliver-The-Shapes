@@ -24,6 +24,7 @@ public class LinkUI : MonoBehaviour {
     private void UpdateAvaliableLinkIndicatorColor() {
         int currentUsingLinkCount = LinkManager.Instance.CurrentUsingLinkCount;
         int maximumLinkCount = LinkManager.Instance.MaximumLinkCount;
+
         if (currentUsingLinkCount < maximumLinkCount) {
             hasAvailableLinkIndicator.color = availableLinkColor;
             linkCountText.color = Color.white;
