@@ -39,11 +39,13 @@ public class LinkManager : Singleton<LinkManager> {
 
     public void SelectNode(Node node) {
         if (availableLink == null) return;
+        if (selectedNode == null && node.IsLocked) return;
 
+        List<Node> connectableNodes = new List<Node>();
         //If the selected nodes are same, do nothing.
         if (selectedNode != null && node == selectedNode) {
             selectedNode = null;
-            List<Node> connectableNodes = FindConnectableNodes(node);
+            connectableNodes = FindConnectableNodes(node);
             NodeOutlineManager.Instance.UpdateNodeOutline(node);
             NodeOutlineManager.Instance.UnhighlightConnectableNodeOutlines(connectableNodes);
             return;
@@ -53,12 +55,14 @@ public class LinkManager : Singleton<LinkManager> {
         if (selectedNode == null) {
             selectedNode = node;
             availableLink.LineRenderer.SetPosition(0, node.transform.position);
-            List<Node> connectableNodes = FindConnectableNodes(selectedNode);
+            connectableNodes = FindConnectableNodes(selectedNode);
             NodeOutlineManager.Instance.UpdateNodeOutline(selectedNode);
             NodeOutlineManager.Instance.HighlightConnectableNodeOutlines(connectableNodes);
             return;
         }
 
+        connectableNodes = FindConnectableNodes(selectedNode);
+        NodeOutlineManager.Instance.UnhighlightConnectableNodeOutlines(connectableNodes);
         ConnectTwoNodes(selectedNode, node);
     }
 

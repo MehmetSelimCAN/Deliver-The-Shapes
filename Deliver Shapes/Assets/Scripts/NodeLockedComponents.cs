@@ -19,6 +19,7 @@ public class NodeLockedComponents : MonoBehaviour {
     [SerializeField] private Transform inputIngredientsParent;
     [SerializeField] private Transform inputIngredientTemplate;
 
+    [SerializeField] private Image arrowImage;
     [SerializeField] private Image outputIngredientImage;
 
     private void Awake() {
@@ -62,6 +63,11 @@ public class NodeLockedComponents : MonoBehaviour {
     }
 
     private void CreateOutputIngredientsVisual() {
+        if (nodeData.InputIngredientsDictionary.Count == 0) {
+            arrowImage.gameObject.SetActive(false);
+            outputIngredientImage.transform.position = arrowImage.transform.position;
+        }
+
         outputIngredientImage.sprite = SpriteProvider.Instance.GetResourceSprite(nodeData.OutputResourceType);
     }
 

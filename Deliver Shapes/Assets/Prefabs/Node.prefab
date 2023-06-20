@@ -1029,6 +1029,7 @@ MonoBehaviour:
   earnedLinkCountText: {fileID: 5173182817037228951}
   inputIngredientsParent: {fileID: 5173182817435674567}
   inputIngredientTemplate: {fileID: 5173182817885586043}
+  arrowImage: {fileID: 5173182818729549657}
   outputIngredientImage: {fileID: 5173182817510198384}
 --- !u!1 &5173182817510198385
 GameObject:
@@ -1199,7 +1200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5173182817740803617
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1887,7 +1888,6 @@ GameObject:
   - component: {fileID: 5173182818331287598}
   - component: {fileID: 5173182818331287594}
   - component: {fileID: 5173182818331287637}
-  - component: {fileID: 404944767892805882}
   m_Layer: 0
   m_Name: Node
   m_TagString: Untagged
@@ -1940,6 +1940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isLocked: 1
+  nodeOutline: {fileID: 5173182817740803616}
 --- !u!114 &5173182818331287598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1991,19 +1992,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeLockedComponents: {fileID: 5173182817462253281}
   nodeUnlockedComponents: {fileID: 5173182817368342777}
---- !u!114 &404944767892805882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5173182818331287599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 978e9d773fdd7a344afc2b8bc4609ff9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nodeOutline: {fileID: 5173182817740803616}
 --- !u!1 &5173182818407099196
 GameObject:
   m_ObjectHideFlags: 0

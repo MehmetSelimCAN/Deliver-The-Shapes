@@ -30,7 +30,7 @@ public class NodeData : MonoBehaviour {
     [SerializeField] private ResourceType outputResourceType;
     public ResourceType OutputResourceType { get { return outputResourceType; } }
 
-    [SerializeField] private int maximumResourceCapacity = 10;
+    private int maximumResourceCapacity = 10;
     public int MaximumResourceCapacity { get { return maximumResourceCapacity; } }
 
     private void Awake() {
