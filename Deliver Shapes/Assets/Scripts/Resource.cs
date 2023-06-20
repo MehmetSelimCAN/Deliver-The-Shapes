@@ -19,7 +19,10 @@ public class Resource : MonoBehaviour {
             yield return null;
         }
 
-        node.GetResource(this);
+        if (node.CanGetResource(resourceType)) {
+            node.GetResource(this);
+        }
+
         Destroy(gameObject);
     }
 }
