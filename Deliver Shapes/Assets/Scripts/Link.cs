@@ -6,6 +6,7 @@ public class Link : MonoBehaviour {
 
     private LineRenderer lineRenderer;
     public LineRenderer LineRenderer { get { return lineRenderer; } }
+    private Color linkColor = new Color32(0, 255, 196, 255);
     private EdgeCollider2D edgeCollider;
     public EdgeCollider2D EdgeCollider { get { return edgeCollider; } }
 
@@ -50,28 +51,31 @@ public class Link : MonoBehaviour {
         AdjustLineRendererPoints(zeroPoints);
         AdjustEdgeColliderPoints(zeroPoints);
 
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
+        lineRenderer.startColor = linkColor;
+        lineRenderer.endColor = linkColor;
 
         gameObject.SetActive(false);
 
         LinkManager.Instance.BreakLink();
+
     }
 
     private void OnMouseEnter() {
-        lineRenderer.startColor = Color.red;
-        lineRenderer.endColor = Color.red;
+        if (LinkManager.Instance.SelectedNode == null) {
+            lineRenderer.startColor = Color.red;
+            lineRenderer.endColor = Color.red;
+        }
 
         //Debug.Log("link sayýsý " + connectedNodes[0].ConnectedNodesLinks[connectedNodes[1]]);
     }
 
     private void OnMouseExit() {
-        lineRenderer.startColor = Color.green;
-        lineRenderer.endColor = Color.green;
+        lineRenderer.startColor = linkColor;
+        lineRenderer.endColor = linkColor;
     }
 
     private void OnMouseDown() {
-        if (IsConnected) {
+        if (IsConnected && LinkManager.Instance.SelectedNode == null) {
             BreakLink();
         }
     }

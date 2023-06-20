@@ -18,15 +18,20 @@ public class LinkManager : MonoBehaviour {
     public int CurrentUsingLinkCount { get { return currentUsingLinkCount; } }
 
     private Node selectedNode;
+    public Node SelectedNode { get { return selectedNode; } }
     private bool isPreviewingLink;
 
     private LinkUI linkUI;
+
+    private Node[] allNodes;
 
     private void Awake() {
         Instance = this;
         availableLink = FindAvailableLink();
 
         linkUI = GetComponent<LinkUI>();
+
+        allNodes = FindObjectsOfType<Node>();
     }
 
     private void Update() {
@@ -43,6 +48,9 @@ public class LinkManager : MonoBehaviour {
         //If the selected nodes are same, do nothing.
         if (selectedNode != null && node == selectedNode) {
             selectedNode = null;
+            List<Node> connectableNodes = FindConnectableNodes(node);
+            NodeOutlineManager.Instance.UpdateNodeOutline(node);
+            NodeOutlineManager.Instance.UnhighlightConnectableNodeOutlines(connectableNodes);
             return;
         }
 
@@ -50,6 +58,9 @@ public class LinkManager : MonoBehaviour {
         if (selectedNode == null) {
             selectedNode = node;
             availableLink.LineRenderer.SetPosition(0, node.transform.position);
+            List<Node> connectableNodes = FindConnectableNodes(selectedNode);
+            NodeOutlineManager.Instance.UpdateNodeOutline(selectedNode);
+            NodeOutlineManager.Instance.HighlightConnectableNodeOutlines(connectableNodes);
             return;
         }
 
@@ -58,9 +69,9 @@ public class LinkManager : MonoBehaviour {
 
     private void ConnectTwoNodes(Node node1, Node node2) {
         if (node1.CanConnect(node2)) {
+            selectedNode = null;
             node1.ConnectNode(node2);
             CreateLink(node1, node2);
-            selectedNode = null;
         }
     }
 
@@ -111,7 +122,6 @@ public class LinkManager : MonoBehaviour {
         linkUI.UpdateLinkCountText();
 
         availableLink = FindAvailableLink();
-
     }
 
     public void EarnLink(int earnedLinkCount) {
@@ -130,6 +140,25 @@ public class LinkManager : MonoBehaviour {
         if (availableLink == null) {
             availableLink = FindAvailableLink();
         }
+    }
+
+    public List<Node> FindConnectableNodes(Node selectedNode) {
+        List<Node> connectableNodes = new List<Node>();
+
+        foreach (var node in allNodes) {
+            if (node.IsLocked) {
+                if (node.NodeData.RequiredIngredientsDictionary.ContainsKey(selectedNode.NodeData.OutputResourceType)) {
+                    connectableNodes.Add(node);
+                }
+            }
+            else {
+                if (node.NodeData.InputIngredientsDictionary.ContainsKey(selectedNode.NodeData.OutputResourceType)) {
+                    connectableNodes.Add(node);
+                }
+            }
+        }
+
+        return connectableNodes;
     }
 
     private Vector2 GetMousePosition() {

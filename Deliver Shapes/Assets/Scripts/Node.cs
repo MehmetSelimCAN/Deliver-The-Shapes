@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Node : MonoBehaviour {
 
@@ -10,12 +12,17 @@ public class Node : MonoBehaviour {
 
     private Dictionary<Node, int> connectedNodesLinks = new Dictionary<Node, int>();
     public Dictionary<Node, int> ConnectedNodesLinks { get { return connectedNodesLinks; } }
+    public bool IsConnected { get { return connectedNodesLinks.Count > 0; } }
 
     private ResourceGenerator resourceGenerator;
     public ResourceGenerator ResourceGenerator { get { return resourceGenerator; } }
 
     private NodeData nodeData;
+    public NodeData NodeData { get { return nodeData; } }
+
     private NodeVisualManager nodeVisualManager;
+
+    public Image nodeOutline;
 
     private float nodeRadius;
     public float NodeRadius { get { return nodeRadius; } }
@@ -25,6 +32,10 @@ public class Node : MonoBehaviour {
         nodeData = GetComponent<NodeData>();
         nodeVisualManager = GetComponent<NodeVisualManager>();
         nodeRadius = GetComponent<CircleCollider2D>().radius;
+    }
+
+    private void Start() {
+        NodeOutlineManager.Instance.UpdateNodeOutline(this);
     }
 
     public bool CanConnect(Node nodeToConnect) {
@@ -68,6 +79,9 @@ public class Node : MonoBehaviour {
 
         connectedNodesLinks[nodeToConnect]++;
         nodeToConnect.connectedNodesLinks[this]++;
+
+        NodeOutlineManager.Instance.UpdateNodeOutline(nodeToConnect);
+        NodeOutlineManager.Instance.UpdateNodeOutline(this);
 
         resourceGenerator?.UpdateResourceGenerationTimer();
         nodeToConnect.resourceGenerator?.UpdateResourceGenerationTimer();
@@ -134,6 +148,7 @@ public class Node : MonoBehaviour {
         nodeVisualManager.HideLockedUI();
         isLocked = false;
         LinkManager.Instance.EarnLink(nodeData.EarnedLinkCount);
+        NodeOutlineManager.Instance.UpdateNodeOutline(this);
     }
 
     private bool CanInputsChangeToOutput() {
@@ -167,6 +182,10 @@ public class Node : MonoBehaviour {
         }
 
         resourceGenerator?.UpdateResourceGenerationTimer();
+
+        if (!IsConnected) {
+            NodeOutlineManager.Instance.UpdateNodeOutline(this);
+        }
     }
 
     private void OnMouseEnter() {
