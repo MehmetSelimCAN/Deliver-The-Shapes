@@ -43,6 +43,7 @@ public class ResourceGenerator : MonoBehaviour {
         foreach (Node transferTo in node.ConnectedNodesLinks.Keys) {
             if (nodeGenerationTimer[transferTo] < 0) {
                 if (transferTo.CanGetResource(nodeData.OutputResourceType)) {
+                    node.TryToChangeInputsToOutput();
                     SpawnResource(transferTo);
                 }
             }

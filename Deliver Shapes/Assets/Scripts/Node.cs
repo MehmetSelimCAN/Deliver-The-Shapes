@@ -123,9 +123,7 @@ public class Node : MonoBehaviour {
 
         else {
             nodeData.CurrentIngredientsDictionary[resource.ResourceType]++;
-            if (CanInputsChangeToOutput()) {
-                ChangeInputsToOutput();
-            }
+            TryToChangeInputsToOutput();
 
             nodeVisualManager.UpdateCurrentIngredientsVisual();
         }
@@ -146,6 +144,14 @@ public class Node : MonoBehaviour {
         isLocked = false;
         LinkManager.Instance.EarnLink(nodeData.EarnedLinkCount);
         NodeOutlineManager.Instance.UpdateNodeOutline(this);
+    }
+
+    public void TryToChangeInputsToOutput() {
+        if (nodeData.NodeType != NodeType.DependentGeneratorNode) return;
+
+        if (CanInputsChangeToOutput()) {
+            ChangeInputsToOutput();
+        }
     }
 
     private bool CanInputsChangeToOutput() {
