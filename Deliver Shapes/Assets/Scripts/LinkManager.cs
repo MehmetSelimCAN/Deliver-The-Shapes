@@ -1,11 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class LinkManager : MonoBehaviour {
-
-    public static LinkManager Instance { get; private set; }
+public class LinkManager : Singleton<LinkManager> {
 
     [SerializeField] private Transform linksParent;
     [SerializeField] private List<Link> links;
@@ -25,12 +21,11 @@ public class LinkManager : MonoBehaviour {
 
     private Node[] allNodes;
 
-    private void Awake() {
-        Instance = this;
+    public override void Awake() {
+        base.Awake();
+
         availableLink = FindAvailableLink();
-
         linkUI = GetComponent<LinkUI>();
-
         allNodes = FindObjectsOfType<Node>();
     }
 

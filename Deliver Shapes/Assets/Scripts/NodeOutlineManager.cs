@@ -1,18 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NodeOutlineManager : MonoBehaviour {
-
-    public static NodeOutlineManager Instance { get; private set; }
+public class NodeOutlineManager : Singleton<NodeOutlineManager> {
 
     [SerializeField] private Color selectedNodeOutlineColor;
     [SerializeField] private Color UnlockedNodeOutlineColor;
     [SerializeField] private Color UnlockedConnectedNodeOutlineColor;
     [SerializeField] private Color ConnectableNodeOutlineColor;
-
-    private void Awake() {
-        Instance = this;
-    }
 
     public void UpdateNodeOutline(Node node) {
         node.nodeOutline.gameObject.SetActive(true);

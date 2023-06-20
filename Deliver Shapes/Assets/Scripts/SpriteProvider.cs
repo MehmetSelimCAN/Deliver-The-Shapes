@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteProvider : MonoBehaviour {
-
-    public static SpriteProvider Instance { get; private set; }
+public class SpriteProvider : Singleton<SpriteProvider> {
 
     public Sprite triangleSprite;
     public Sprite squareSprite;
     public Sprite circleSprite;
-
-    private void Awake() {
-        Instance = this;
-    }
 
     public Sprite GetResourceSprite(ResourceType resourceType) {
         switch (resourceType) {
